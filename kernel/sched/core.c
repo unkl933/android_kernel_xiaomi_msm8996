@@ -3270,6 +3270,17 @@ static void __sched __schedule(void)
 	sched_preempt_enable_no_resched();
 }
 
+unsigned long sched_get_busy(int cpu)
+{
+    struct cpumask query_cpu = CPU_MASK_NONE;
+	struct sched_load busy;
+
+	cpumask_set_cpu(cpu, &query_cpu);
+	sched_get_cpus_busy(&busy, &query_cpu);
+
+	return busy.prev_load;
+}
+
 static inline void sched_submit_work(struct task_struct *tsk)
 {
 	if (!tsk->state || tsk_is_pi_blocked(tsk))
