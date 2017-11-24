@@ -928,6 +928,14 @@ config SERIAL_NUM
 	help
 	  Provide a interface for reading CPU serial number
 
+config MSM_CAPTOUCH
+	tristate "Capacitive touch simulatation driver"
+	help
+	  This driver is used to allow capacitive touch testing with qbt1000
+
+config STATE_NOTIFIER
+        bool "State Notifier"
+ 
 source "drivers/soc/qcom/memshare/Kconfig"
 
 endif # ARCH_MSM
