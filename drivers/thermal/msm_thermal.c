@@ -123,7 +123,7 @@
 
 static struct msm_thermal_data msm_thermal_info;
 static struct delayed_work check_temp_work, retry_hotplug_work;
-static bool core_control_enabled;
+static bool core_control_enabled = 0;
 static uint32_t cpus_offlined;
 static cpumask_var_t cpus_previously_online;
 static DEFINE_MUTEX(core_control_mutex);
@@ -2029,10 +2029,10 @@ static ssize_t sensor_info_show(
 
 static struct vdd_rstr_enable vdd_rstr_en = {
 	.ko_attr.attr.name = __stringify(enabled),
-	.ko_attr.attr.mode = 0444,
+	.ko_attr.attr.mode = 0644,
 	.ko_attr.show = vdd_rstr_en_show,
 	.ko_attr.store = vdd_rstr_en_store,
-	.enabled = 0,
+	.enabled = 1,
 };
 
 static struct attribute *vdd_rstr_en_attribs[] = {
@@ -4930,7 +4930,7 @@ done_cc:
 }
 
 static __refdata struct kobj_attribute cc_enabled_attr =
-__ATTR(enabled, 0644, show_cc_enabled, store_cc_enabled);
+__ATTR(enabled, 0444, show_cc_enabled, store_cc_enabled);
 
 static __refdata struct kobj_attribute cpus_offlined_attr =
 __ATTR(cpus_offlined, 0644, show_cpus_offlined, store_cpus_offlined);
@@ -6610,7 +6610,7 @@ static int probe_cc(struct device_node *node, struct msm_thermal_data *data,
 	if (num_possible_cpus() > 1) {
 		key = "qcom,disable-core-control";
 		if (!of_property_read_bool(node, key))
-			core_control_enabled = 1;
+			core_control_enabled = 0;
 		hotplug_enabled = 1;
 	}
 
