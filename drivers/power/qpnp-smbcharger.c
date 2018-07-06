@@ -5015,20 +5015,6 @@ static void handle_usb_removal(struct smbchg_chip *chip)
 	if (!chip->hvdcp_not_supported)
 		restore_from_hvdcp_detection(chip);
 
-	/* Reset the params related to stage current solution */
-	if (chip->vfloat_mv == chip->stage_charge_thr_mv) {
-		cancel_delayed_work_sync(&chip->stage_charge_work);
-	}
-	smbchg_float_voltage_set(chip, chip->cfg_vfloat_mv);
-	vote(chip->fcc_votable, STAGE_CHARGE_FCC_VOTER, false, 0);
-	chip->stage_charge_count = 0;
-	chip->parallel_voltage_checked = false;
-	/* Clear the awake flag when usb is absent */
-	smbchg_relax(chip, PM_CHARGING_CHECK);
-	/* if PM_DETECT_HVDCP wake reason is not clear, we should clear it */
-	if (chip->wake_reasons & PM_DETECT_HVDCP)
-		smbchg_relax(chip, PM_DETECT_HVDCP);
-
 #ifdef CONFIG_CHARGE_CONTROL
 	// Restore normal behaviour after charging limit tigger
 	if(get_effective_result(chip->battchg_suspend_votable) == 1)
