@@ -17,10 +17,10 @@ on property:persist.spectrum.profile=0
     #Based on GhostPepper v2.0 (15/12/2016)
 
 	#Set governor Interactive governor for the LITTLE and BIG cluster
-		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
 
 	#Set the maximum frequency to 1593MHz for the LITTLE cluster
 		#write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1593600 
@@ -206,10 +206,10 @@ on property:persist.spectrum.profile=1
     #Based on FusionP (15/02/2017)
 
 	#Set governor Interactive governor for the LITTLE and BIG cluster
-		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
 
 	#Set the maximum frequency to 1593MHz for the LITTLE cluster
 		#write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1593600 
@@ -400,10 +400,10 @@ on property:persist.spectrum.profile=2
 	#Based on Project X.A.N.A (Battery variant) v4.3 (19/09/2017)
 
 	#Set governor Interactive governor for the LITTLE and BIG cluster
-		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
 
 	#Set the maximum frequency to 1593MHz for the LITTLE cluster
 		#write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1593600 
@@ -594,10 +594,10 @@ on property:persist.spectrum.profile=3
     #Based on Burnout PR5 (18/09/2017)
 
 	#Set governor Interactive governor for the LITTLE and BIG cluster
-		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
-		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
 
 	#Set the maximum frequency to 1593MHz for the LITTLE cluster
 		#write /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq 1593600 
