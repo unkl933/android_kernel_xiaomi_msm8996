@@ -511,6 +511,12 @@ config THUNDERPLUG_CONTROL
        This driver uses powersuspend to take down the cpu cores
        on a octa core device. Tuned to work on a quad core device.
 
+config ALUCARD_HOTPLUG
+	bool "Enable alucard-hotplug cpu hotplug driver"
+    default n
+	help
+	  Generic Alucard-hotplug cpu hotplug driver for ARM SOCs.
+
 menu "x86 CPU frequency scaling drivers"
 depends on X86
 source "drivers/cpufreq/Kconfig.x86"
