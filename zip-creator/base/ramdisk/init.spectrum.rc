@@ -66,12 +66,6 @@ on property:persist.spectrum.profile=0
 	#Enable CPU power saving
 		write /sys/module/workqueue/parameters/power_efficient Y
 
-	#Disable Fsync
-		write /sys/module/sync/parameters/fsync_enabled N
-
-	#Disable Dynamic Fsync
-		write /sys/kernel/dyn_fsync/Dyn_fsync_active 0
-
 	#Disable Gentle Fair Sleepers
 		write /sys/kernel/sched/gentle_fair_sleepers 0
 
@@ -80,9 +74,6 @@ on property:persist.spectrum.profile=0
 
 	#Disable CRC
 		write /sys/module/mmc_core/parameters/use_spi_crc 0
-
-	#Disable TouchBoost
-		write /sys/module/msm_performance/parameters/touchboost 0
 
 	#Disable BCL
 		write /sys/devices/soc/soc:qcom,bcl/mode "-n disable"
@@ -198,12 +189,6 @@ on property:persist.spectrum.profile=1
 	#Disable CPU power saving
 		write /sys/module/workqueue/parameters/power_efficient N
 
-	#Disable Fsync
-		write /sys/module/sync/parameters/fsync_enabled N
-
-	#Disable Dynamic Fsync
-		write /sys/kernel/dyn_fsync/Dyn_fsync_active 0
-
 	#Enable Gentle Fair Sleepers
 		write /sys/kernel/sched/gentle_fair_sleepers 1
 
@@ -212,9 +197,6 @@ on property:persist.spectrum.profile=1
 
 	#Disable CRC
 		write /sys/module/mmc_core/parameters/use_spi_crc 0
-
-	#Enable TouchBoost
-		write /sys/module/msm_performance/parameters/touchboost 1
 
 	#Disable BCL
 		write /sys/devices/soc/soc:qcom,bcl/mode "-n disable"
@@ -335,12 +317,6 @@ on property:persist.spectrum.profile=2
 	#Enable CPU power saving
 		write /sys/module/workqueue/parameters/power_efficient Y
 
-	#Disable Fsync
-		write /sys/module/sync/parameters/fsync_enabled N
-
-	#Disable Dynamic Fsync
-		write /sys/kernel/dyn_fsync/Dyn_fsync_active 0
-
 	#Disable Gentle Fair Sleepers
 		write /sys/kernel/sched/gentle_fair_sleepers 0
 
@@ -349,9 +325,6 @@ on property:persist.spectrum.profile=2
 
 	#Disable CRC
 		write /sys/module/mmc_core/parameters/use_spi_crc 0
-
-	#Disable TouchBoost
-		write /sys/module/msm_performance/parameters/touchboost 0
 
 	#Disable BCL
 		write /sys/devices/soc/soc:qcom,bcl/mode "-n disable"
@@ -472,12 +445,6 @@ on property:persist.spectrum.profile=3
 	#Disable CPU power saving
 		write /sys/module/workqueue/parameters/power_efficient N
 
-	#Disable Fsync
-		write /sys/module/sync/parameters/fsync_enabled N
-
-	#Disable Dynamic Fsync
-		write /sys/kernel/dyn_fsync/Dyn_fsync_active 0
-
 	#Enable Gentle Fair Sleepers
 		write /sys/kernel/sched/gentle_fair_sleepers 1
 
@@ -486,9 +453,6 @@ on property:persist.spectrum.profile=3
 
 	#Disable CRC
 		write /sys/module/mmc_core/parameters/use_spi_crc 0
-
-	#Disable TouchBoost
-		write /sys/module/msm_performance/parameters/touchboost 1
 
 	#Disable BCL
 		write /sys/devices/soc/soc:qcom,bcl/mode "-n disable"
