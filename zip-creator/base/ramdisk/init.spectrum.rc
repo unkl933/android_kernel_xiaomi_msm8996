@@ -41,18 +41,18 @@ on property:persist.spectrum.profile=0
 	#Tweak Schedutil Governor for the BIG cluster
 		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 1000
 		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 0
-		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 100
 		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 1000
 		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 0
-		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 100
 
 	#Tweak Schedutil Governor for the LITTLE cluster
 		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 1000
 		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 0
-		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 100
 		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 1000
 		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 0
-		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 100
 
 	#Enable CPU Input Boost at 729MHz for the LITTLE cluster and at 940MHz for the BIG Cluster
 		write /sys/kernel/cpu_input_boost/enabled 1
