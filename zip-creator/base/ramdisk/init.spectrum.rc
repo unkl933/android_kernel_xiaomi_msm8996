@@ -14,7 +14,7 @@ on property:sys.boot_completed=1
 
 # Balance (default profile)
 on property:persist.spectrum.profile=0
-    #Based on GhostPepper v2.0 (15/12/2016)
+    #Based on Floppy Balanced
 
 	#Set governor Schedutil governor for the LITTLE and BIG cluster
 		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
@@ -63,25 +63,25 @@ on property:persist.spectrum.profile=0
 		write /sys/devices/soc/soc:qcom,bcl/mode "-n disable"
 
 	#Tweak HMP Scheduler to feed the Big cluster more tasks
-		#write /proc/sys/kernel/sched_window_stats_policy 2
-		#write /proc/sys/kernel/sched_upmigrate 95 
-		#write /proc/sys/kernel/sched_downmigrate 80
-		#write /proc/sys/kernel/sched_spill_nr_run 5 
-		#write /proc/sys/kernel/sched_spill_load 96
-		#write /proc/sys/kernel/sched_init_task_load 40
-		#write /proc/sys/kernel/sched_heavy_task 96
-		#write /proc/sys/kernel/sched_enable_power_aware 1
-		#write /proc/sys/kernel/sched_upmigrate_min_nice 5 
-		#write /proc/sys/kernel/sched_ravg_hist_size 4
-		#write /proc/sys/kernel/sched_small_wakee_task_load 5 
-		#write /proc/sys/kernel/sched_wakeup_load_threshold 110
-		#write /proc/sys/kernel/sched_small_task 21 
-		#write /proc/sys/kernel/sched_rt_runtime_us 950000
-		#write /proc/sys/kernel/sched_rt_period_us 1000000
-		#write /proc/sys/kernel/sched_migration_fixup 1 
+		write /proc/sys/kernel/sched_window_stats_policy 2
+		write /proc/sys/kernel/sched_upmigrate 95 
+		write /proc/sys/kernel/sched_downmigrate 80
+		write /proc/sys/kernel/sched_spill_nr_run 5 
+		write /proc/sys/kernel/sched_spill_load 96
+		write /proc/sys/kernel/sched_init_task_load 40
+		write /proc/sys/kernel/sched_heavy_task 96
+		write /proc/sys/kernel/sched_enable_power_aware 1
+		write /proc/sys/kernel/sched_upmigrate_min_nice 5 
+		write /proc/sys/kernel/sched_ravg_hist_size 4
+		write /proc/sys/kernel/sched_small_wakee_task_load 5 
+		write /proc/sys/kernel/sched_wakeup_load_threshold 110
+		write /proc/sys/kernel/sched_small_task 21 
+		write /proc/sys/kernel/sched_rt_runtime_us 950000
+		write /proc/sys/kernel/sched_rt_period_us 1000000
+		write /proc/sys/kernel/sched_migration_fixup 1 
 		write /proc/sys/kernel/sched_freq_dec_notify 410000
 		write /proc/sys/kernel/sched_freq_inc_notify 600000
-		#write /proc/sys/kernel/sched_boost 0
+		write /proc/sys/kernel/sched_boost 0
 
 	#Scheduler I/O 
 		write /sys/block/sda/queue/read_ahead_kb 512
@@ -121,7 +121,7 @@ on property:persist.spectrum.profile=0
 
 # Performance
 on property:persist.spectrum.profile=1
-    #Based on FusionP (15/02/2017)
+    #Based on GhostPepper v2.0 (15/12/2016)
 
 	#Set governor Schedutil governor for the LITTLE and BIG cluster
 		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
@@ -170,26 +170,25 @@ on property:persist.spectrum.profile=1
 		write /sys/devices/soc/soc:qcom,bcl/mode "-n disable"
 
 	#Tweak HMP Scheduler to feed the Big cluster more tasks
-		write /proc/sys/kernel/sched_window_stats_policy 1
-		write /proc/sys/kernel/sched_upmigrate 90
-		write /proc/sys/kernel/sched_downmigrate 60 
-		write /proc/sys/kernel/sched_spill_nr_run 10
-		write /proc/sys/kernel/sched_spill_load 90 
-		write /proc/sys/kernel/sched_init_task_load 90
-		write /proc/sys/kernel/sched_heavy_task 0 
+		write /proc/sys/kernel/sched_window_stats_policy 2
+		write /proc/sys/kernel/sched_upmigrate 95 
+		write /proc/sys/kernel/sched_downmigrate 80
+		write /proc/sys/kernel/sched_spill_nr_run 5 
+		write /proc/sys/kernel/sched_spill_load 96
+		write /proc/sys/kernel/sched_init_task_load 40
+		write /proc/sys/kernel/sched_heavy_task 96
 		write /proc/sys/kernel/sched_enable_power_aware 1
-		write /proc/sys/kernel/sched_upmigrate_min_nice 10
-		write /proc/sys/kernel/sched_ravg_hist_size 5
-		write /proc/sys/kernel/sched_small_wakee_task_load 10
+		write /proc/sys/kernel/sched_upmigrate_min_nice 5 
+		write /proc/sys/kernel/sched_ravg_hist_size 4
+		write /proc/sys/kernel/sched_small_wakee_task_load 5 
 		write /proc/sys/kernel/sched_wakeup_load_threshold 110
-		write /proc/sys/kernel/sched_small_task 5
-		write /proc/sys/kernel/sched_big_waker_task_load 20
+		write /proc/sys/kernel/sched_small_task 21 
 		write /proc/sys/kernel/sched_rt_runtime_us 950000
 		write /proc/sys/kernel/sched_rt_period_us 1000000
-		#write proc/sys/kernel/sched_migration_fixup 1
+		write /proc/sys/kernel/sched_migration_fixup 1 
 		write /proc/sys/kernel/sched_freq_dec_notify 410000
-		write /proc/sys/kernel/sched_freq_inc_notify 410000
-		write /proc/sys/kernel/sched_boost 1
+		write /proc/sys/kernel/sched_freq_inc_notify 600000
+		write /proc/sys/kernel/sched_boost 0
 
 	#Scheduler I/O 
 		write /sys/block/sda/queue/read_ahead_kb 1024
@@ -233,8 +232,8 @@ on property:persist.spectrum.profile=1
 
 # Battery
 on property:persist.spectrum.profile=2
-	#Based on Project X.A.N.A (Battery variant) v4.3 (19/09/2017)
-
+	#Based on Floppy Battery
+	
 	#Set governor Schedutil governor for the LITTLE and BIG cluster
 		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
 		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
@@ -257,14 +256,14 @@ on property:persist.spectrum.profile=2
 		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 0
 		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 100
 
-	#Enable CPU Input Boost at 556MHz for the LITTLE cluster and at 0Mhz for the BIG Cluster 
+	#Enable CPU Input Boost at 729MHz for the LITTLE cluster and at 940MMhz for the BIG Cluster 
 		write /sys/kernel/cpu_input_boost/enabled 1
-		write /sys/kernel/cpu_input_boost/ib_duration_ms 66
-		write /sys/kernel/cpu_input_boost/ib_freqs "556800 0"
+		write /sys/kernel/cpu_input_boost/ib_duration_ms 35
+		write /sys/kernel/cpu_input_boost/ib_freqs "729600 940800"
 
-	#Enable CPU Boost at 556MHz for the LITTLE cluster and at 0MHz for the BIG Cluster
-		write /sys/module/cpu_boost/parameters/input_boost_freq "0:556800 1:0 2:0 3:0"
-		write /sys/module/cpu_boost/parameters/input_boost_ms 66
+	#Enable CPU Boost at 729MHz for the LITTLE cluster and at 940MMhz for the BIG Cluster
+		write /sys/module/cpu_boost/parameters/input_boost_freq "0:729600 1:0 2:940800 3:0"
+		write /sys/module/cpu_boost/parameters/input_boost_ms 35
 
 	#Enable CPU power saving
 		write /sys/module/workqueue/parameters/power_efficient Y
@@ -283,24 +282,23 @@ on property:persist.spectrum.profile=2
 
 	#Tweak HMP Scheduler for correcting BIG Cluster utilization
 		write /proc/sys/kernel/sched_window_stats_policy 2
-		write /proc/sys/kernel/sched_upmigrate 90
-		write /proc/sys/kernel/sched_downmigrate 65
-		write /proc/sys/kernel/sched_spill_nr_run 7
-		write /proc/sys/kernel/sched_spill_load 97
-		write /proc/sys/kernel/sched_init_task_load 30
+		write /proc/sys/kernel/sched_upmigrate 95 
+		write /proc/sys/kernel/sched_downmigrate 80
+		write /proc/sys/kernel/sched_spill_nr_run 5 
+		write /proc/sys/kernel/sched_spill_load 96
+		write /proc/sys/kernel/sched_init_task_load 40
 		write /proc/sys/kernel/sched_heavy_task 96
 		write /proc/sys/kernel/sched_enable_power_aware 1
-		write /proc/sys/kernel/sched_upmigrate_min_nice 7
+		write /proc/sys/kernel/sched_upmigrate_min_nice 5 
 		write /proc/sys/kernel/sched_ravg_hist_size 4
-		write /proc/sys/kernel/sched_small_wakee_task_load 15
+		write /proc/sys/kernel/sched_small_wakee_task_load 5 
 		write /proc/sys/kernel/sched_wakeup_load_threshold 110
-		write /proc/sys/kernel/sched_small_task 15
-		write /proc/sys/kernel/sched_big_waker_task_load 33
+		write /proc/sys/kernel/sched_small_task 21 
 		write /proc/sys/kernel/sched_rt_runtime_us 950000
 		write /proc/sys/kernel/sched_rt_period_us 1000000
-		write /proc/sys/kernel/sched_migration_fixup 1
+		write /proc/sys/kernel/sched_migration_fixup 1 
 		write /proc/sys/kernel/sched_freq_dec_notify 410000
-		write /proc/sys/kernel/sched_freq_inc_notify 510000
+		write /proc/sys/kernel/sched_freq_inc_notify 600000
 		write /proc/sys/kernel/sched_boost 0
 
 	#Scheduler I/O 
@@ -318,7 +316,7 @@ on property:persist.spectrum.profile=2
 		write /proc/sys/vm/swappiness 20
 		write /proc/sys/vm/vfs_cache_pressure 100
 		write /proc/sys/vm/dirty_ratio 80
-		write /proc/sys/vm/dirty_background_ratio 20
+		write /proc/sys/vm/dirty_background_ratio 50
 		write /proc/sys/vm/min_free_kbytes 4096
 		write /proc/sys/vm/dirty_expire_centisecs 100
 		write /proc/sys/vm/dirty_writeback_centisecs 250
