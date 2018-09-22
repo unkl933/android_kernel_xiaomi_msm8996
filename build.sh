@@ -260,7 +260,7 @@ if [ -f arch/${ARCH}/boot/Image.gz ] || [ -f arch/${ARCH}/boot/Image.lzma ] || [
 		fi
 
 		#cp arch/${ARCH}/boot/dt.img ${zipdirout}/dtb
-
+		echo "maintainer=${maintainer}" >> ${zipdirout}/device.prop
 		echo "customkernel=${customkernel}" >> ${zipdirout}/device.prop
 		echo "name=${name}" >> ${zipdirout}/device.prop
 		echo "variant=${variant}" >> ${zipdirout}/device.prop
@@ -463,6 +463,7 @@ elif [ -e build.sh ]; then
 	_d="Already Done!"
 	_r="Ready to do!"
 	# Main Variables
+	maintainer=JonasCardoso
 	customkernel=FloppyKernel
 	romversion=HMP
 	androidversion=Pie
