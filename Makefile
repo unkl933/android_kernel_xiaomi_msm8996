@@ -629,6 +629,8 @@ ifdef CONFIG_CC_OPTIMIZE_FAST
 KBUILD_CFLAGS  += -Ofast
 endif
 
+KBUILD_CFLAGS	+= $(call cc-disable-warning,misleading-indentation,)
+
 # Disable all format-overflow warnings
 KBUILD_CFLAGS	+= $(call cc-disable-warning, format-overflow)
 
