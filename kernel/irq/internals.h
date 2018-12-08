@@ -170,27 +170,27 @@ irq_put_desc_unlock(struct irq_desc *desc, unsigned long flags)
  */
 static inline void irqd_set_move_pending(struct irq_data *d)
 {
-	__irqd_to_state(d) |= IRQD_SETAFFINITY_PENDING;
+	d->state_use_accessors |= IRQD_SETAFFINITY_PENDING;
 }
 
 static inline void irqd_clr_move_pending(struct irq_data *d)
 {
-	__irqd_to_state(d) &= ~IRQD_SETAFFINITY_PENDING;
+	d->state_use_accessors &= ~IRQD_SETAFFINITY_PENDING;
 }
 
 static inline void irqd_clear(struct irq_data *d, unsigned int mask)
 {
-	__irqd_to_state(d) &= ~mask;
+	d->state_use_accessors &= ~mask;
 }
 
 static inline void irqd_set(struct irq_data *d, unsigned int mask)
 {
-	__irqd_to_state(d) |= mask;
+	d->state_use_accessors |= mask;
 }
 
 static inline bool irqd_has_set(struct irq_data *d, unsigned int mask)
 {
-	return __irqd_to_state(d) & mask;
+	return d->state_use_accessors & mask;
 }
 
 static inline void kstat_incr_irqs_this_cpu(unsigned int irq, struct irq_desc *desc)
