@@ -71,4 +71,3 @@ obj-$(CONFIG_QPNP_MISC) 	+= qpnp-misc.o
 obj-$(CONFIG_TYPEC_DRIVER) += type-c/
 obj-$(CONFIG_TSPDRV) += drv2604.o
 obj-$(CONFIG_LAST_TZ) += last_tz.o
-obj-$(CONFIG_FORCE_FAST_CHARGE) += fastchg.o
