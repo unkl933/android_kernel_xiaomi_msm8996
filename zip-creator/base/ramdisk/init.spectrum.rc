@@ -12,9 +12,106 @@ on property:sys.boot_completed=1
    # Add kernel name
    setprop persist.spectrum.kernel FloppyKernel
 
-# Balance (default profile)
-on property:persist.spectrum.profile=0
-    #Based on Floppy Balanced
+# Gates of Hell
+on property:persist.spectrum.profile=5
+
+	#Set governor Schedutil governor for the LITTLE and BIG cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
+		
+	#Tweak Schedutil Governor for the BIG cluster
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 4000
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 400
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 4000
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 400
+
+	#Tweak Schedutil Governor for the LITTLE cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 4000
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 400
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 4000
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 400
+
+	#Enable CPU Boost
+		write /sys/module/cpu_boost/parameters/input_boost_freq "0:960000 1:0 2:806400 3:0"
+		write /sys/module/cpu_boost/parameters/input_boost_ms 150
+
+	#Disable CPU power saving
+		write /sys/module/workqueue/parameters/power_efficient N
+
+	#Enable Gentle Fair Sleepers
+		write /sys/kernel/sched/gentle_fair_sleepers 1
+
+	#Enable Arch Power
+		write /sys/kernel/sched/arch_power 1
+
+	#Disable CRC
+		write /sys/module/mmc_core/parameters/use_spi_crc 0
+
+	#Tweaking HMP Scheduler for correcting BIG Cluster utilization
+		write /proc/sys/kernel/sched_window_stats_policy 2
+		write /proc/sys/kernel/sched_downmigrate 45
+		write /proc/sys/kernel/sched_upmigrate 65
+		write /proc/sys/kernel/sched_spill_nr_run 3
+		write /proc/sys/kernel/sched_spill_load 100
+		write /proc/sys/kernel/sched_upmigrate_min_nice 5
+		write /proc/sys/kernel/sched_rt_runtime_us 950000
+		write /proc/sys/kernel/sched_rt_period_us 1000000
+		write /proc/sys/kernel/sched_ravg_hist_size 5
+		write /proc/sys/kernel/sched_new_task_windows 5
+		write /proc/sys/kernel/sched_init_task_load 100
+		write /proc/sys/kernel/sched_restrict_cluster_spill 0 
+		write /proc/sys/kernel/sched_rr_timeslice_ms 33
+		write /proc/sys/kernel/sched_enable_power_aware 1
+		write /proc/sys/kernel/sched_small_wakee_task_load 10
+		write /proc/sys/kernel/sched_wakeup_load_threshold 110
+		write /proc/sys/kernel/sched_big_waker_task_load 25
+		write /proc/sys/kernel/sched_freq_dec_notify 200000
+		write /proc/sys/kernel/sched_freq_inc_notify 300000
+		write /proc/sys/kernel/sched_boost 1
+
+	#Scheduler I/O 
+		write /sys/block/sda/queue/read_ahead_kb 2048
+		write /sys/block/sde/queue/read_ahead_kb 2048
+
+	#VM tweaks
+		write /proc/sys/vm/swappiness 50
+		write /proc/sys/vm/vfs_cache_pressure 100
+		write /proc/sys/vm/dirty_ratio 20
+		write /proc/sys/vm/dirty_background_ratio 10
+		write /proc/sys/vm/min_free_kbytes 4096
+		write /proc/sys/vm/dirty_expire_centisecs 250
+		write /proc/sys/vm/dirty_writeback_centisecs 500
+		write /proc/sys/vm/oom_kill_allocating_task 0
+		write /proc/sys/vm/drop_caches 3
+		write /proc/sys/vm/page-cluster 3
+
+	#Entropy
+		write /proc/sys/kernel/random/read_wakeup_threshold 64
+		write /proc/sys/kernel/random/write_wakeup_threshold 896
+
+	#Set noop block I/O scheduler
+		setprop sys.io.scheduler "sioplus"
+
+	#TCP Values
+		write /proc/sys/net/ipv4/tcp_congestion_control westwood
+
+	#Tweaking GPU
+		write /sys/class/kgsl/kgsl-3d0/devfreq/governor performance
+		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 624000000
+
+    #Underclock
+        write /sys/module/cpufreq/parameters/enable_underclock_balanced N
+        write /sys/module/cpufreq/parameters/enable_underclock_battery N
+		
+# Gaming
+on property:persist.spectrum.profile=3
+    #Based on Burnout PR5 (18/09/2017)
 
 	#Set governor Schedutil governor for the LITTLE and BIG cluster
 		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
@@ -23,30 +120,128 @@ on property:persist.spectrum.profile=0
 		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
 
 	#Tweak Schedutil Governor for the BIG cluster
-		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 1000
-		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 0
-		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 100
-		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 1000
-		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 0
-		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 100
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 3000
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 300
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 3000
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 300
 
 	#Tweak Schedutil Governor for the LITTLE cluster
-		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 1000
-		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 0
-		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 100
-		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 1000
-		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 0
-		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 100
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 3000
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 300
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 3000
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 300
 
 	#Enable CPU Boost
-		write /sys/module/cpu_boost/parameters/input_boost_freq "0:960000 1:0 2:883200 3:0"
-		write /sys/module/cpu_boost/parameters/input_boost_ms 35
+		write /sys/module/cpu_boost/parameters/input_boost_freq "0:960000 1:0 2:806400 3:0"
+		write /sys/module/cpu_boost/parameters/input_boost_ms 70
 
-	#Enable CPU power saving
-		write /sys/module/workqueue/parameters/power_efficient Y
+	#Disable CPU power saving
+		write /sys/module/workqueue/parameters/power_efficient N
 
-	#Disable Gentle Fair Sleepers
-		write /sys/kernel/sched/gentle_fair_sleepers 0
+	#Enable Gentle Fair Sleepers
+		write /sys/kernel/sched/gentle_fair_sleepers 1
+
+	#Enable Arch Power
+		write /sys/kernel/sched/arch_power 1
+
+	#Disable CRC
+		write /sys/module/mmc_core/parameters/use_spi_crc 0
+
+	#Tweaking HMP Scheduler for correcting BIG Cluster utilization
+		write /proc/sys/kernel/sched_window_stats_policy 2
+		write /proc/sys/kernel/sched_downmigrate 45
+		write /proc/sys/kernel/sched_upmigrate 65
+		write /proc/sys/kernel/sched_spill_nr_run 3
+		write /proc/sys/kernel/sched_spill_load 100
+		write /proc/sys/kernel/sched_upmigrate_min_nice 5
+		write /proc/sys/kernel/sched_rt_runtime_us 950000
+		write /proc/sys/kernel/sched_rt_period_us 1000000
+		write /proc/sys/kernel/sched_ravg_hist_size 5
+		write /proc/sys/kernel/sched_new_task_windows 5
+		write /proc/sys/kernel/sched_init_task_load 100
+		write /proc/sys/kernel/sched_restrict_cluster_spill 0 
+		write /proc/sys/kernel/sched_rr_timeslice_ms 33
+		write /proc/sys/kernel/sched_enable_power_aware 1
+		write /proc/sys/kernel/sched_small_wakee_task_load 10
+		write /proc/sys/kernel/sched_wakeup_load_threshold 110
+		write /proc/sys/kernel/sched_big_waker_task_load 25
+		write /proc/sys/kernel/sched_freq_dec_notify 200000
+		write /proc/sys/kernel/sched_freq_inc_notify 300000
+		write /proc/sys/kernel/sched_boost 1
+
+	#Scheduler I/O 
+		write /sys/block/sda/queue/read_ahead_kb 2048
+		write /sys/block/sde/queue/read_ahead_kb 2048
+
+	#VM tweaks
+		write /proc/sys/vm/swappiness 50
+		write /proc/sys/vm/vfs_cache_pressure 100
+		write /proc/sys/vm/dirty_ratio 20
+		write /proc/sys/vm/dirty_background_ratio 10
+		write /proc/sys/vm/min_free_kbytes 4096
+		write /proc/sys/vm/dirty_expire_centisecs 250
+		write /proc/sys/vm/dirty_writeback_centisecs 500
+		write /proc/sys/vm/oom_kill_allocating_task 0
+		write /proc/sys/vm/drop_caches 3
+		write /proc/sys/vm/page-cluster 3
+
+	#Entropy
+		write /proc/sys/kernel/random/read_wakeup_threshold 64
+		write /proc/sys/kernel/random/write_wakeup_threshold 896
+
+	#Set noop block I/O scheduler
+		setprop sys.io.scheduler "sioplus"
+
+	#TCP Values
+		write /proc/sys/net/ipv4/tcp_congestion_control westwood
+
+	#Tweaking GPU
+		write /sys/class/kgsl/kgsl-3d0/devfreq/governor performance
+		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 624000000
+
+    #Underclock
+        write /sys/module/cpufreq/parameters/enable_underclock_balanced N
+        write /sys/module/cpufreq/parameters/enable_underclock_battery N
+
+# Performance Plus
+on property:persist.spectrum.profile=6
+    #Based on Nameless Perfomance (18/12/2016)
+
+	#Set governor Schedutil governor for the LITTLE and BIG cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
+
+	#Tweak Schedutil Governor for the BIG cluster
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 2000
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 300
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 2000
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 300
+
+	#Tweak Schedutil Governor for the LITTLE cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 2000
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 300
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 2000
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 1
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 300
+
+	#Enable CPU Boost
+		write /sys/module/cpu_boost/parameters/input_boost_freq "0:960000 1:0 2:1036800 3:0"
+		write /sys/module/cpu_boost/parameters/input_boost_ms 50
+
+	#Disable CPU power saving
+		write /sys/module/workqueue/parameters/power_efficient N
+
+	#Enable Gentle Fair Sleepers
+		write /sys/kernel/sched/gentle_fair_sleepers 1
 
 	#Enable Arch Power
 		write /sys/kernel/sched/arch_power 1
@@ -76,34 +271,38 @@ on property:persist.spectrum.profile=0
 		write /proc/sys/kernel/sched_boost 0
 
 	#Scheduler I/O 
-		write /sys/block/sda/queue/read_ahead_kb 512
-		write /sys/block/sde/queue/read_ahead_kb 512
+		write /sys/block/sda/queue/read_ahead_kb 1536
+		write /sys/block/sde/queue/read_ahead_kb 1536
 
 	#VM tweaks
-		write /proc/sys/vm/swappiness 30 
+		write /proc/sys/vm/swappiness 40
 		write /proc/sys/vm/vfs_cache_pressure 100
-		write /proc/sys/vm/dirty_ratio 80 
-		write /proc/sys/vm/dirty_background_ratio 50
+		write /proc/sys/vm/dirty_ratio 80
+		write /proc/sys/vm/dirty_background_ratio 20
 		write /proc/sys/vm/min_free_kbytes 4096
+		write /proc/sys/vm/dirty_expire_centisecs 100
+		write /proc/sys/vm/dirty_writeback_centisecs 250
+		write /proc/sys/vm/oom_kill_allocating_task 0
+		write /proc/sys/vm/page-cluster 3
 
 	#Entropy
 		write /proc/sys/kernel/random/read_wakeup_threshold 64
 		write /proc/sys/kernel/random/write_wakeup_threshold 896
 
 	#Set noop block I/O scheduler
-		setprop sys.io.scheduler "sio"
+		setprop sys.io.scheduler "maple"
 
 	#TCP Values
 		write /proc/sys/net/ipv4/tcp_congestion_control westwood
 
 	#Tweaking GPU
-		write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
-		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 560000000
+		write /sys/class/kgsl/kgsl-3d0/devfreq/governor performance
+		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 624000000
 
     #Underclock
-        write /sys/module/cpufreq/parameters/enable_underclock_balanced Y
+        write /sys/module/cpufreq/parameters/enable_underclock_balanced N
         write /sys/module/cpufreq/parameters/enable_underclock_battery N
-
+		
 # Performance
 on property:persist.spectrum.profile=1
     #Based on GhostPepper v2.0 (15/12/2016)
@@ -115,20 +314,20 @@ on property:persist.spectrum.profile=1
 		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
 
 	#Tweak Schedutil Governor for the BIG cluster
-		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 2000
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 1500
 		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 1
-		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 100
-		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 2000
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 1500
 		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 1
-		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 100
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 250
 
 	#Tweak Schedutil Governor for the LITTLE cluster
-		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 2000
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 1500
 		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 1
-		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 100
-		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 2000
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 1500
 		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 1
-		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 100
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 250
 
 	#Enable CPU Boost
 		write /sys/module/cpu_boost/parameters/input_boost_freq "0:729600 1:0 2:940800 3:0"
@@ -199,9 +398,289 @@ on property:persist.spectrum.profile=1
     #Underclock
         write /sys/module/cpufreq/parameters/enable_underclock_balanced N
         write /sys/module/cpufreq/parameters/enable_underclock_battery N
+		
+# Balance Smooth (default profile)
+on property:persist.spectrum.profile=4
+    #Based on HawkPepper v2.0 (18/12/2016)
+
+	#Set governor Schedutil governor for the LITTLE and BIG cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
+
+	#Tweak Schedutil Governor for the BIG cluster
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 1200
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 1200
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 250
+
+	#Tweak Schedutil Governor for the LITTLE cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 1200
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 1200
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 250
+
+	#Enable CPU Boost
+		write /sys/module/cpu_boost/parameters/input_boost_freq "0:960000 1:0 2:883200 3:0"
+		write /sys/module/cpu_boost/parameters/input_boost_ms 35
+
+	#Enable CPU power saving
+		write /sys/module/workqueue/parameters/power_efficient Y
+
+	#Disable Gentle Fair Sleepers
+		write /sys/kernel/sched/gentle_fair_sleepers 0
+
+	#Enable Arch Power
+		write /sys/kernel/sched/arch_power 1
+
+	#Disable CRC
+		write /sys/module/mmc_core/parameters/use_spi_crc 0
+
+	#Tweak HMP Scheduler to feed the Big cluster more tasks
+		write /proc/sys/kernel/sched_window_stats_policy 2
+		write /proc/sys/kernel/sched_upmigrate 95 
+		write /proc/sys/kernel/sched_downmigrate 80
+		write /proc/sys/kernel/sched_spill_nr_run 5 
+		write /proc/sys/kernel/sched_spill_load 96
+		write /proc/sys/kernel/sched_init_task_load 40
+		write /proc/sys/kernel/sched_heavy_task 96
+		write /proc/sys/kernel/sched_enable_power_aware 1
+		write /proc/sys/kernel/sched_upmigrate_min_nice 5 
+		write /proc/sys/kernel/sched_ravg_hist_size 4
+		write /proc/sys/kernel/sched_small_wakee_task_load 5 
+		write /proc/sys/kernel/sched_wakeup_load_threshold 110
+		write /proc/sys/kernel/sched_small_task 21 
+		write /proc/sys/kernel/sched_rt_runtime_us 950000
+		write /proc/sys/kernel/sched_rt_period_us 1000000
+		write /proc/sys/kernel/sched_migration_fixup 1 
+		write /proc/sys/kernel/sched_freq_dec_notify 410000
+		write /proc/sys/kernel/sched_freq_inc_notify 600000
+		write /proc/sys/kernel/sched_boost 0
+
+	#Scheduler I/O 
+		write /sys/block/sda/queue/read_ahead_kb 1024
+		write /sys/block/sde/queue/read_ahead_kb 1024
+
+	#VM tweaks
+		write /proc/sys/vm/swappiness 30 
+		write /proc/sys/vm/vfs_cache_pressure 100
+		write /proc/sys/vm/dirty_ratio 80 
+		write /proc/sys/vm/dirty_background_ratio 50
+		write /proc/sys/vm/min_free_kbytes 4096
+
+	#Entropy
+		write /proc/sys/kernel/random/read_wakeup_threshold 64
+		write /proc/sys/kernel/random/write_wakeup_threshold 896
+
+	#Set noop block I/O scheduler
+		setprop sys.io.scheduler "sio"
+
+	#TCP Values
+		write /proc/sys/net/ipv4/tcp_congestion_control westwood
+
+	#Tweaking GPU
+		write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
+		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 560000000
+
+    #Underclock
+        write /sys/module/cpufreq/parameters/enable_underclock_balanced Y
+        write /sys/module/cpufreq/parameters/enable_underclock_battery N
+		
+# Balance Battery
+on property:persist.spectrum.profile=0
+    #Based on Floppy Balanced
+
+	#Set governor Schedutil governor for the LITTLE and BIG cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
+
+	#Tweak Schedutil Governor for the BIG cluster
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 1000
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 1000
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 250
+
+	#Tweak Schedutil Governor for the LITTLE cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 1000
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 250
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 1000
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 250
+
+	#Enable CPU Boost
+		write /sys/module/cpu_boost/parameters/input_boost_freq "0:960000 1:0 2:883200 3:0"
+		write /sys/module/cpu_boost/parameters/input_boost_ms 35
+
+	#Enable CPU power saving
+		write /sys/module/workqueue/parameters/power_efficient Y
+
+	#Disable Gentle Fair Sleepers
+		write /sys/kernel/sched/gentle_fair_sleepers 0
+
+	#Enable Arch Power
+		write /sys/kernel/sched/arch_power 1
+
+	#Disable CRC
+		write /sys/module/mmc_core/parameters/use_spi_crc 0
+
+	#Tweak HMP Scheduler to feed the Big cluster more tasks
+		write /proc/sys/kernel/sched_window_stats_policy 2
+		write /proc/sys/kernel/sched_upmigrate 95 
+		write /proc/sys/kernel/sched_downmigrate 80
+		write /proc/sys/kernel/sched_spill_nr_run 5 
+		write /proc/sys/kernel/sched_spill_load 96
+		write /proc/sys/kernel/sched_init_task_load 40
+		write /proc/sys/kernel/sched_heavy_task 96
+		write /proc/sys/kernel/sched_enable_power_aware 1
+		write /proc/sys/kernel/sched_upmigrate_min_nice 5 
+		write /proc/sys/kernel/sched_ravg_hist_size 4
+		write /proc/sys/kernel/sched_small_wakee_task_load 5 
+		write /proc/sys/kernel/sched_wakeup_load_threshold 110
+		write /proc/sys/kernel/sched_small_task 21 
+		write /proc/sys/kernel/sched_rt_runtime_us 950000
+		write /proc/sys/kernel/sched_rt_period_us 1000000
+		write /proc/sys/kernel/sched_migration_fixup 1 
+		write /proc/sys/kernel/sched_freq_dec_notify 410000
+		write /proc/sys/kernel/sched_freq_inc_notify 600000
+		write /proc/sys/kernel/sched_boost 0
+
+	#Scheduler I/O 
+		write /sys/block/sda/queue/read_ahead_kb 512
+		write /sys/block/sde/queue/read_ahead_kb 512
+
+	#VM tweaks
+		write /proc/sys/vm/swappiness 30 
+		write /proc/sys/vm/vfs_cache_pressure 100
+		write /proc/sys/vm/dirty_ratio 80 
+		write /proc/sys/vm/dirty_background_ratio 50
+		write /proc/sys/vm/min_free_kbytes 4096
+
+	#Entropy
+		write /proc/sys/kernel/random/read_wakeup_threshold 64
+		write /proc/sys/kernel/random/write_wakeup_threshold 896
+
+	#Set noop block I/O scheduler
+		setprop sys.io.scheduler "sio"
+
+	#TCP Values
+		write /proc/sys/net/ipv4/tcp_congestion_control westwood
+
+	#Tweaking GPU
+		write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
+		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 560000000
+
+    #Underclock
+        write /sys/module/cpufreq/parameters/enable_underclock_balanced Y
+        write /sys/module/cpufreq/parameters/enable_underclock_battery N
 
 # Battery
 on property:persist.spectrum.profile=2
+	#Based on Project X.A.N.A (Extreme Battery variant) v4.3  (19/09/2017)
+	
+	#Set governor Schedutil governor for the LITTLE and BIG cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
+
+	#Tweak Schedutil Governor for the BIG cluster
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 750
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 100
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 750
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 100
+
+	#Tweak Schedutil Governor for the LITTLE cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 750
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 100
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 750
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 0
+		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 100
+
+	#Enable CPU Boost
+		write /sys/module/cpu_boost/parameters/input_boost_freq "0:0 1:0 2:0 3:0"
+		write /sys/module/cpu_boost/parameters/input_boost_ms 0
+
+	#Enable CPU power saving
+		write /sys/module/workqueue/parameters/power_efficient Y
+
+	#Disable Gentle Fair Sleepers
+		write /sys/kernel/sched/gentle_fair_sleepers 0
+
+	#Enable Arch Power
+		write /sys/kernel/sched/arch_power 1
+
+	#Disable CRC
+		write /sys/module/mmc_core/parameters/use_spi_crc 0
+
+	#Tweak HMP Scheduler for correcting BIG Cluster utilization
+		write /proc/sys/kernel/sched_window_stats_policy 2
+		write /proc/sys/kernel/sched_upmigrate 95 
+		write /proc/sys/kernel/sched_downmigrate 65
+		write /proc/sys/kernel/sched_spill_nr_run 7
+		write /proc/sys/kernel/sched_spill_load 97 
+		write /proc/sys/kernel/sched_init_task_load 30 
+		write /proc/sys/kernel/sched_heavy_task 96
+		write /proc/sys/kernel/sched_enable_power_aware 1
+		write /proc/sys/kernel/sched_upmigrate_min_nice 7
+		write /proc/sys/kernel/sched_ravg_hist_size 4
+		write /proc/sys/kernel/sched_small_wakee_task_load 15 
+		write /proc/sys/kernel/sched_wakeup_load_threshold 110
+		write /proc/sys/kernel/sched_small_task 15 
+		write /proc/sys/kernel/sched_rt_runtime_us 950000
+		write /proc/sys/kernel/sched_rt_period_us 1000000
+		write /proc/sys/kernel/sched_migration_fixup 1 
+		write /proc/sys/kernel/sched_freq_dec_notify 410000
+		write /proc/sys/kernel/sched_freq_inc_notify 600000
+		write /proc/sys/kernel/sched_boost 0
+
+	#Scheduler I/O 
+		write /sys/block/sda/queue/read_ahead_kb 512
+		write /sys/block/sde/queue/read_ahead_kb 512
+
+	#VM tweaks
+		write /proc/sys/vm/swappiness 0
+		write /proc/sys/vm/vfs_cache_pressure 100
+		write /proc/sys/vm/dirty_ratio 80
+		write /proc/sys/vm/dirty_background_ratio 20
+		write /proc/sys/vm/min_free_kbytes 4096
+		write /proc/sys/vm/dirty_expire_centisecs 100
+		write /proc/sys/vm/dirty_writeback_centisecs 250
+		write /proc/sys/vm/oom_kill_allocating_task 0
+		write /proc/sys/vm/page-cluster 3
+
+	#Entropy
+		write /proc/sys/kernel/random/read_wakeup_threshold 64
+		write /proc/sys/kernel/random/write_wakeup_threshold 896
+
+	#Set noop block I/O scheduler
+		setprop sys.io.scheduler "noop"
+
+	#TCP
+		write /proc/sys/net/ipv4/tcp_congestion_control westwood
+
+	#Tweaking GPU
+		write /sys/class/kgsl/kgsl-3d0/devfreq/governor powersave
+		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 501000000 
+
+    #Underclock
+        write /sys/module/cpufreq/parameters/enable_underclock_balanced N
+        write /sys/module/cpufreq/parameters/enable_underclock_battery Y
+		
+# Ultra Battery
+on property:persist.spectrum.profile=7
 	#Based on Floppy Battery
 	
 	#Set governor Schedutil governor for the LITTLE and BIG cluster
@@ -264,8 +743,8 @@ on property:persist.spectrum.profile=2
 		write /proc/sys/kernel/sched_boost 0
 
 	#Scheduler I/O 
-		write /sys/block/sda/queue/read_ahead_kb 512
-		write /sys/block/sde/queue/read_ahead_kb 512
+		write /sys/block/sda/queue/read_ahead_kb 256
+		write /sys/block/sde/queue/read_ahead_kb 256
 
 	#VM tweaks
 		write /proc/sys/vm/swappiness 20
@@ -290,47 +769,31 @@ on property:persist.spectrum.profile=2
 
 	#Tweaking GPU
 		write /sys/class/kgsl/kgsl-3d0/devfreq/governor powersave
-		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 510000000
+		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 410000000
 
     #Underclock
         write /sys/module/cpufreq/parameters/enable_underclock_balanced N
         write /sys/module/cpufreq/parameters/enable_underclock_battery Y
 
-# Gaming
-on property:persist.spectrum.profile=3
-    #Based on Burnout PR5 (18/09/2017)
-
-	#Set governor Schedutil governor for the LITTLE and BIG cluster
-		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "schedutil"
-		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "schedutil"
-		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "schedutil"
-		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "schedutil"
-
-	#Tweak Schedutil Governor for the BIG cluster
-		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/down_rate_limit_us 3000
-		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/iowait_boost_enable 1
-		write /sys/devices/system/cpu/cpu2/cpufreq/schedutil/up_rate_limit_us 100
-		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/down_rate_limit_us 3000
-		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/iowait_boost_enable 1
-		write /sys/devices/system/cpu/cpu3/cpufreq/schedutil/up_rate_limit_us 100
-
-	#Tweak Schedutil Governor for the LITTLE cluster
-		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/down_rate_limit_us 3000
-		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/iowait_boost_enable 1
-		write /sys/devices/system/cpu/cpu0/cpufreq/schedutil/up_rate_limit_us 100
-		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/down_rate_limit_us 3000
-		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/iowait_boost_enable 1
-		write /sys/devices/system/cpu/cpu1/cpufreq/schedutil/up_rate_limit_us 100
+# Felipe Mode
+on property:persist.spectrum.profile=8
+	#Based on Supreme Lord of the Lanterns
+	
+	#Set governor Interactive governor for the LITTLE and BIG cluster
+		write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
+		write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "powersave"
+		write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "powersave"
+		write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "powersave"
 
 	#Enable CPU Boost
-		write /sys/module/cpu_boost/parameters/input_boost_freq "0:960000 1:0 2:806400 3:0"
-		write /sys/module/cpu_boost/parameters/input_boost_ms 70
+		write /sys/module/cpu_boost/parameters/input_boost_freq "0:0 1:0 2:0 3:0"
+		write /sys/module/cpu_boost/parameters/input_boost_ms 0
 
-	#Disable CPU power saving
-		write /sys/module/workqueue/parameters/power_efficient N
+	#Enable CPU power saving
+		write /sys/module/workqueue/parameters/power_efficient Y
 
-	#Enable Gentle Fair Sleepers
-		write /sys/kernel/sched/gentle_fair_sleepers 1
+	#Disable Gentle Fair Sleepers
+		write /sys/kernel/sched/gentle_fair_sleepers 0
 
 	#Enable Arch Power
 		write /sys/kernel/sched/arch_power 1
@@ -338,42 +801,40 @@ on property:persist.spectrum.profile=3
 	#Disable CRC
 		write /sys/module/mmc_core/parameters/use_spi_crc 0
 
-	#Tweaking HMP Scheduler for correcting BIG Cluster utilization
+	#Tweak HMP Scheduler for correcting BIG Cluster utilization
 		write /proc/sys/kernel/sched_window_stats_policy 2
-		write /proc/sys/kernel/sched_downmigrate 45
-		write /proc/sys/kernel/sched_upmigrate 65
-		write /proc/sys/kernel/sched_spill_nr_run 3
-		write /proc/sys/kernel/sched_spill_load 100
-		write /proc/sys/kernel/sched_upmigrate_min_nice 5
+		write /proc/sys/kernel/sched_upmigrate 95 
+		write /proc/sys/kernel/sched_downmigrate 80
+		write /proc/sys/kernel/sched_spill_nr_run 5 
+		write /proc/sys/kernel/sched_spill_load 96
+		write /proc/sys/kernel/sched_init_task_load 40
+		write /proc/sys/kernel/sched_heavy_task 96
+		write /proc/sys/kernel/sched_enable_power_aware 1
+		write /proc/sys/kernel/sched_upmigrate_min_nice 5 
+		write /proc/sys/kernel/sched_ravg_hist_size 4
+		write /proc/sys/kernel/sched_small_wakee_task_load 5 
+		write /proc/sys/kernel/sched_wakeup_load_threshold 110
+		write /proc/sys/kernel/sched_small_task 21 
 		write /proc/sys/kernel/sched_rt_runtime_us 950000
 		write /proc/sys/kernel/sched_rt_period_us 1000000
-		write /proc/sys/kernel/sched_ravg_hist_size 5
-		write /proc/sys/kernel/sched_new_task_windows 5
-		write /proc/sys/kernel/sched_init_task_load 100
-		write /proc/sys/kernel/sched_restrict_cluster_spill 0 
-		write /proc/sys/kernel/sched_rr_timeslice_ms 33
-		write /proc/sys/kernel/sched_enable_power_aware 1
-		write /proc/sys/kernel/sched_small_wakee_task_load 10
-		write /proc/sys/kernel/sched_wakeup_load_threshold 110
-		write /proc/sys/kernel/sched_big_waker_task_load 25
-		write /proc/sys/kernel/sched_freq_dec_notify 200000
-		write /proc/sys/kernel/sched_freq_inc_notify 300000
-		write /proc/sys/kernel/sched_boost 1
+		write /proc/sys/kernel/sched_migration_fixup 1 
+		write /proc/sys/kernel/sched_freq_dec_notify 410000
+		write /proc/sys/kernel/sched_freq_inc_notify 600000
+		write /proc/sys/kernel/sched_boost 0
 
 	#Scheduler I/O 
-		write /sys/block/sda/queue/read_ahead_kb 1024
-		write /sys/block/sde/queue/read_ahead_kb 1024
+		write /sys/block/sda/queue/read_ahead_kb 128
+		write /sys/block/sde/queue/read_ahead_kb 128
 
 	#VM tweaks
-		write /proc/sys/vm/swappiness 50
+		write /proc/sys/vm/swappiness 20
 		write /proc/sys/vm/vfs_cache_pressure 100
-		write /proc/sys/vm/dirty_ratio 20
-		write /proc/sys/vm/dirty_background_ratio 10
+		write /proc/sys/vm/dirty_ratio 80
+		write /proc/sys/vm/dirty_background_ratio 50
 		write /proc/sys/vm/min_free_kbytes 4096
-		write /proc/sys/vm/dirty_expire_centisecs 250
-		write /proc/sys/vm/dirty_writeback_centisecs 500
+		write /proc/sys/vm/dirty_expire_centisecs 100
+		write /proc/sys/vm/dirty_writeback_centisecs 250
 		write /proc/sys/vm/oom_kill_allocating_task 0
-		write /proc/sys/vm/drop_caches 3
 		write /proc/sys/vm/page-cluster 3
 
 	#Entropy
@@ -381,15 +842,15 @@ on property:persist.spectrum.profile=3
 		write /proc/sys/kernel/random/write_wakeup_threshold 896
 
 	#Set noop block I/O scheduler
-		setprop sys.io.scheduler "sioplus"
+		setprop sys.io.scheduler "noop"
 
-	#TCP Values
+	#TCP
 		write /proc/sys/net/ipv4/tcp_congestion_control westwood
 
 	#Tweaking GPU
-		write /sys/class/kgsl/kgsl-3d0/devfreq/governor performance
-		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 624000000
+		write /sys/class/kgsl/kgsl-3d0/devfreq/governor powersave
+		write /sys/class/kgsl/kgsl-3d0/max_gpuclk 410000000
 
     #Underclock
         write /sys/module/cpufreq/parameters/enable_underclock_balanced N
-        write /sys/module/cpufreq/parameters/enable_underclock_battery N
+        write /sys/module/cpufreq/parameters/enable_underclock_battery Y
