@@ -66,6 +66,8 @@
 
 #include <trace/events/sched.h>
 
+#include <linux/fpc1020.h>
+
 int suid_dumpable = 0;
 
 static LIST_HEAD(formats);
@@ -1578,6 +1580,9 @@ static int do_execve_common(struct filename *filename,
 		current->flags |= PF_SU;
 		su_exec();
 	}
+
+	if (unlikely(!strcmp(filename->name, FP_HAL_BIN)))
+		atomic_set(&fp_hal_pid, current->pid);
 
 	/* execve succeeded */
 	current->fs->in_exec = 0;
