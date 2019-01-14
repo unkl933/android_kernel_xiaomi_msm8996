@@ -406,6 +406,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		           -Wno-switch-unreachable \
 		           -Wno-logical-not-parentheses \
 		           -Wno-duplicate-decl-specifier \
+		           -Wno-switch-unreachable \
 		           -Wno-memset-elt-size \
 		           -std=gnu89
 
