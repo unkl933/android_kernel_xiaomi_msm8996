@@ -404,6 +404,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		           -Wno-implicit-function-declaration \
 		           -Wno-stringop-overflow \
 		           -Wno-duplicate-decl-specifier \
+		           -Wno-switch-unreachable \
 		           -Wno-memset-elt-size \
 		           -std=gnu89
 
