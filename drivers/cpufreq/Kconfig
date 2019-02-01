@@ -528,6 +528,12 @@ config ALUCARD_HOTPLUG
 	help
 	  Generic Alucard-hotplug cpu hotplug driver for ARM SOCs.
 
+config FINGERPRINT_BOOST
+	bool "Fingerprint Boost"
+	default n
+	help
+	  Boosts available CPUs to max frequency on fingerprint sensor input.
+
 menu "x86 CPU frequency scaling drivers"
 depends on X86
 source "drivers/cpufreq/Kconfig.x86"
