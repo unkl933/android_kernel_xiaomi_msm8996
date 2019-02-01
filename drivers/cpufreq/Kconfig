@@ -522,7 +522,7 @@ config ALUCARD_HOTPLUG
 
 config FINGERPRINT_BOOST
 	bool "Fingerprint Boost"
-	default y
+	default n
 	help
 	  Boosts available CPUs to max frequency on fingerprint sensor input.
 
