@@ -2282,7 +2282,7 @@ typedef enum
 #define CFG_THERMAL_SHUTDOWN_ENABLE_NAME      "gThermalShutdownEnable"
 #define CFG_THERMAL_SHUTDOWN_ENABLE_MIN       ( 0 )
 #define CFG_THERMAL_SHUTDOWN_ENABLE_MAX       ( 1 )
-#define CFG_THERMAL_SHUTDOWN_ENABLE_DEFAULT   ( 1 )
+#define CFG_THERMAL_SHUTDOWN_ENABLE_DEFAULT   ( 0 )
 
 /*
  * <ini>
@@ -2393,6 +2393,25 @@ typedef enum
 #define CFG_THERMAL_SAMPLE_RATE_MAX       ( 10000 )
 #define CFG_THERMAL_SAMPLE_RATE_DEFAULT   ( 5000 )
 #endif /* FEATURE_WLAN_THERMAL_SHUTDOWN */
+
+/*
+ * <ini>
+ * gRemoveTimeStampSyncCmd - Enable/Disable to remove time stamp sync cmd
+ * @Min: 0
+ * @Max: 1
+ * @Default: 0
+ *
+ * This ini is used to enable/disable the removal of time stamp sync cmd
+ *
+ * Usage: External
+ *
+ * </ini>
+ */
+
+#define CFG_REMOVE_TIME_STAMP_SYNC_CMD_NAME      "gRemoveTimeStampSyncCmd"
+#define CFG_REMOVE_TIME_STAMP_SYNC_CMD_MIN       ( 0 )
+#define CFG_REMOVE_TIME_STAMP_SYNC_CMD_MAX       ( 1 )
+#define CFG_REMOVE_TIME_STAMP_SYNC_CMD_DEFAULT   ( 0 )
 
 /*
  * <ini>
@@ -2953,6 +2972,39 @@ This feature requires the dependent cfg.ini "gRoamPrefer5GHz" set to 1 */
 #define CFG_ENABLE_FW_SELF_RECOVERY_DISABLE      ( 0 )
 #define CFG_ENABLE_FW_SELF_RECOVERY_ENABLE       ( 1 )
 #define CFG_ENABLE_FW_SELF_RECOVERY_DEFAULT      ( CFG_ENABLE_FW_SELF_RECOVERY_DISABLE )
+
+/*
+ * Enable/Disable warm reset for USB
+ */
+/*
+ * <ini>
+ * enable_usb_warm_reset - Enable/Disable warm reset for USB
+ * @Min: 0
+ * @Max: 1
+ * @Default: 0
+ *
+ * This ini is used to control warm reset feature for USB solution.
+ * When enabled, dedicated binary will be downloaded to target during
+ * initialization, as well as target be notified when USB disconnected.
+ *
+ * Usage: Internal
+ *
+ * 1: Enable
+ * 0: Disable
+ *
+ * </ini>
+ */
+#define CFG_ENABLE_USB_WARM_RESET_NAME           "enable_usb_warm_reset"
+#define CFG_ENABLE_USB_WARM_RESET_DISABLE        ( 0 )
+#define CFG_ENABLE_USB_WARM_RESET_ENABLE         ( 1 )
+#define CFG_ENABLE_USB_WARM_RESET_DEFAULT        ( CFG_ENABLE_USB_WARM_RESET_DISABLE )
+/*
+ * Enable/Disable fast FW dump
+ */
+#define CFG_ENABLE_FAST_FW_DUMP_NAME         "gEnableFastFwDump"
+#define CFG_ENABLE_FAST_FW_DUMP_DISABLE      ( 0 )
+#define CFG_ENABLE_FAST_FW_DUMP_ENABLE       ( 1 )
+#define CFG_ENABLE_FAST_FW_DUMP_DEFAULT      ( CFG_ENABLE_FAST_FW_DUMP_DISABLE )
 
 #ifdef WLAN_FEATURE_11AC
 //Macro to handle maximum receive AMPDU size configuration
@@ -3537,6 +3589,11 @@ This feature requires the dependent cfg.ini "gRoamPrefer5GHz" set to 1 */
 #define CFG_ENABLE_SIFS_BURST_MIN                  ( 0 )
 #define CFG_ENABLE_SIFS_BURST_MAX                  (3)
 #define CFG_ENABLE_SIFS_BURST_DEFAULT              ( 0 )
+
+#define CFG_KEEP_PASSIVE_DWELL_TIME                       "gKeepPassiveDwellTime"
+#define CFG_KEEP_PASSIVE_DWELL_TIME_DEFAULT               ( 0 )
+#define CFG_KEEP_PASSIVE_DWELL_TIME_MIN                   ( 0 )
+#define CFG_KEEP_PASSIVE_DWELL_TIME_MAX                   ( 1 )
 
 #ifdef WLAN_FEATURE_LPSS
 #define CFG_ENABLE_LPASS_SUPPORT                          "gEnableLpassSupport"
@@ -4500,9 +4557,20 @@ FG_BTC_BT_INTERVAL_PAGE_P2P_STA_DEFAULT
 
 #ifdef WLAN_FEATURE_WOW_PULSE
 /*
- * Enable/Disable  WOW PULSE feature
- * Set the wakeup pulse which FW use to wake up HOST
- * Default : Disable
+ * <ini>
+ * gwow_pulse_support - wow pulse enable/disable
+ * @Min: 0
+ * @Max: 1
+ * @Default: 0
+ *
+ * This ini is used to enable/disable wow pulse feature.
+ * This feature FW send the customized pulse to wakeup host.
+ *
+ * Supported Feature: WOW pulse
+ *
+ * Usage: Internal/External
+ *
+ * </ini>
  */
 #define CFG_WOW_PULSE_SUPPORT_NAME     "gwow_pulse_support"
 #define CFG_WOW_PULSE_SUPPORT_MIN      (0)
@@ -4510,8 +4578,19 @@ FG_BTC_BT_INTERVAL_PAGE_P2P_STA_DEFAULT
 #define CFG_WOW_PULSE_SUPPORT_DEFAULT  (CFG_WOW_PULSE_SUPPORT_MIN)
 
 /*
- * GPIO PIN for Pulse
- * Which PIN to send the Pulse
+ * <ini>
+ * gwow_pulse_pin - wow pulse pin number
+ * @Min: CFG_SET_TSF_GPIO_PIN_MIN
+ * @Max: CFG_SET_TSF_GPIO_PIN_MAX
+ * @Default: 35
+ *
+ * This ini is used to configure which pin to send wow pulse.
+ *
+ * Supported Feature: WOW pulse
+ *
+ * Usage: Internal/External
+ *
+ * </ini>
  */
 #define CFG_WOW_PULSE_PIN_NAME         "gwow_pulse_pin"
 #define CFG_WOW_PULSE_PIN_MIN          (CFG_SET_TSF_GPIO_PIN_MIN)
@@ -4519,24 +4598,88 @@ FG_BTC_BT_INTERVAL_PAGE_P2P_STA_DEFAULT
 #define CFG_WOW_PULSE_PIN_DEFAULT      (35)
 
 /*
- * Pulse interval low
- * The interval of low level in the pulse
- * The value which defined by customer should between 160 and 480
+ * <ini>
+ * gwow_pulse_interval_low - wow pulse interval low
+ * @Min: 20
+ * @Max: 480
+ * @Default: 180
+ *
+ * This ini is used to configure interval of wow low pulse,
+ * unit is ms.
+ *
+ * Supported Feature: WOW pulse
+ *
+ * Usage: Internal/External
+ *
+ * </ini>
  */
 #define CFG_WOW_PULSE_INTERVAL_LOW_NAME     "gwow_pulse_interval_low"
-#define CFG_WOW_PULSE_INTERVAL_LOW_MIN      (160)
+#define CFG_WOW_PULSE_INTERVAL_LOW_MIN      (20)
 #define CFG_WOW_PULSE_INTERVAL_LOW_MAX      (480)
 #define CFG_WOW_PULSE_INTERVAL_LOW_DEFAULT  (180)
 
 /*
- * Pulse interval high
- * The interval of high level in the pulse
- * The value which defined by customer should between 20 and 40
+ * <ini>
+ * gwow_pulse_interval_high - wow pulse interval high
+ * @Min: 20
+ * @Max: 480
+ * @Default: 20
+ *
+ * This ini is used to configure interval of wow high pulse,
+ * unit is ms.
+ *
+ * Supported Feature: WOW pulse
+ *
+ * Usage: Internal/External
+ *
+ * </ini>
  */
 #define CFG_WOW_PULSE_INTERVAL_HIGH_NAME    "gwow_pulse_interval_high"
 #define CFG_WOW_PULSE_INTERVAL_HIGH_MIN     (20)
-#define CFG_WOW_PULSE_INTERVAL_HIGH_MAX     (40)
+#define CFG_WOW_PULSE_INTERVAL_HIGH_MAX     (480)
 #define CFG_WOW_PULSE_INTERVAL_HIGH_DEFAULT (20)
+
+/*
+ * <ini>
+ * gwow_pulse_repeat_count - wow pulse repetition count
+ * @Min: 1
+ * @Max: 0xFFFFFFFF
+ * @Default: 0xFFFFFFFF
+ *
+ * This ini is used to configure repeat count of wow pin wave,
+ * level low to level high is one time, 0xFFFFFFFF means endless.
+ *
+ * Supported Feature: WOW pulse
+ *
+ * Usage: Internal/External
+ *
+ * </ini>
+ */
+#define CFG_WOW_PULSE_REPEAT_COUNT_NAME    "gwow_pulse_repeat_count"
+#define CFG_WOW_PULSE_REPEAT_COUNT_MIN     (1)
+#define CFG_WOW_PULSE_REPEAT_COUNT_MAX     (0xFFFFFFFF)
+#define CFG_WOW_PULSE_REPEAT_COUNT_DEFAULT (0xFFFFFFFF)
+
+/*
+ * <ini>
+ * gwow_pulse_init_state - wow pulse init level
+ * @Min: 0
+ * @Max: 1
+ * @Default: 1
+ *
+ * This ini is used to configure init level of wow pin,
+ * 1 is high level, 0 is low level
+ *
+ * Supported Feature: WOW pulse
+ *
+ * Usage: Internal/External
+ *
+ * </ini>
+ */
+#define CFG_WOW_PULSE_INIT_STATE_NAME    "gwow_pulse_init_state"
+#define CFG_WOW_PULSE_INIT_STATE_MIN     (0)
+#define CFG_WOW_PULSE_INIT_STATE_MAX     (1)
+#define CFG_WOW_PULSE_INIT_STATE_DEFAULT (1)
 #endif
 
 /*
@@ -5287,6 +5430,27 @@ FG_BTC_BT_INTERVAL_PAGE_P2P_STA_DEFAULT
 
 /*
  * <ini>
+ * gSkipCrashInject - skip crash inject
+ * @Min: 0
+ * @Max: 1
+ * @Default: 0
+ *
+ * This ini is used to skip crash inject or not
+ *
+ * Related: None
+ *
+ * Usage: Internal/External
+ *
+ * </ini>
+ */
+
+#define CFG_SKIP_CRASH_INJECT_NAME      "gSkipCrashInject"
+#define CFG_SKIP_CRASH_INJECT_MIN       (0)
+#define CFG_SKIP_CRASH_INJECT_MAX       (1)
+#define CFG_SKIP_CRASH_INJECT_DEFAULT   (0)
+
+/*
+ * <ini>
  * gEnableMonOnSta - extend the monitor capability for STA
  * @Min: 0
  * @Max: 1
@@ -5313,6 +5477,28 @@ FG_BTC_BT_INTERVAL_PAGE_P2P_STA_DEFAULT
 #define CFG_SAP_CHANNEL_SWITCH_WITH_CSA_DEFAULT  (0)
 
 #endif//#ifdef WLAN_FEATURE_SAP_TO_FOLLOW_STA_CHAN
+
+/*
+ * <ini>
+ * g_enable_bcast_probe_rsp - Enable Broadcast probe response.
+ * @Min: 0
+ * @Max: 1
+ * @Default: 0
+ *
+ * This ini is used to enable/disable broadcast probe response
+ *
+ * Related: None
+ *
+ * Supported Feature: FILS
+ *
+ * Usage: External
+ *
+ * </ini>
+ */
+#define CFG_ENABLE_BCAST_PROBE_RESP_NAME    "g_enable_bcast_probe_rsp"
+#define CFG_ENABLE_BCAST_PROBE_RESP_MIN     (0)
+#define CFG_ENABLE_BCAST_PROBE_RESP_MAX     (1)
+#define CFG_ENABLE_BCAST_PROBE_RESP_DEFAULT (0)
 
 /*---------------------------------------------------------------------------
   Type declarations
@@ -5770,7 +5956,11 @@ struct hdd_config {
    v_BOOL_t                    enablePowersaveOffload;
    v_BOOL_t                    enablefwprint;
    v_BOOL_t                    enablefwlog;
+   v_BOOL_t                    fastfwdump;
    v_BOOL_t                    enableFwSelfRecovery;
+#ifdef FEATURE_USB_WARM_RESET
+   v_BOOL_t                    enable_usb_warm_reset;
+#endif
    v_BOOL_t                    fP2pListenOffload;
 #ifdef WLAN_FEATURE_11AC
    v_U8_t                      fVhtAmpduLenExponent;
@@ -5820,7 +6010,6 @@ struct hdd_config {
    uint16_t                     thermal_suspend_threshold;
    uint16_t                     thermal_sample_rate;
 #endif
-
    v_U32_t                     TxPower2g;
    v_U32_t                     TxPower5g;
    v_U32_t                     gEnableDebugLog;
@@ -5842,6 +6031,7 @@ struct hdd_config {
    uint8_t                     rate_for_tx_mgmt;
    uint8_t                     rate_for_tx_mgmt_2g;
    uint8_t                     rate_for_tx_mgmt_5g;
+   uint8_t                     remove_time_stamp_sync_cmd;
 #ifdef QCA_LL_TX_FLOW_CT
    v_U32_t                     TxFlowLowWaterMark;
    v_U32_t                     TxFlowHighWaterMarkOffset;
@@ -5945,6 +6135,7 @@ struct hdd_config {
 #endif /* WLAN_LOGGING_SOCK_SVC_ENABLE */
 
    v_U8_t                      enableSifsBurst;
+   v_BOOL_t                    keeppassivedwelltime;
 
 #ifdef WLAN_FEATURE_LPSS
    v_BOOL_t                    enablelpasssupport;
@@ -6105,6 +6296,8 @@ struct hdd_config {
    uint8_t                     wow_pulse_pin;
    uint16_t                    wow_pulse_interval_high;
    uint16_t                    wow_pulse_interval_low;
+   uint32_t                    wow_pulse_repeat_count;
+   uint8_t                     wow_pulse_init_state;
 #endif
    bool                        enable_go_cts2self_for_sta;
    uint8_t                     ht_mpdu_density;
@@ -6217,6 +6410,7 @@ struct hdd_config {
    bool      cca_threshold_enable;
    uint32_t  cca_threshold_2g;
    uint32_t  cca_threshold_5g;
+   uint8_t                     skip_crash_inject;
    uint8_t                     mon_on_sta_enable;
 #ifdef WLAN_FEATURE_SAP_TO_FOLLOW_STA_CHAN
    uint32_t                    sap_ch_switch_with_csa;
@@ -6227,6 +6421,7 @@ struct hdd_config {
    uint32_t dpd_recalib_delta_degreelow;
    uint32_t dpd_recalib_cooling_time;
    uint32_t dpd_recalib_duration_max;
+   bool enable_bcast_probe_rsp;
 };
 
 typedef struct hdd_config hdd_config_t;

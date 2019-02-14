@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2011-2017 The Linux Foundation. All rights reserved.
+ * Copyright (c) 2011-2018 The Linux Foundation. All rights reserved.
  *
  * Previously licensed under the ISC license by Qualcomm Atheros, Inc.
  *
@@ -434,6 +434,8 @@ tpPESession peCreateSession(tpAniSirGlobal pMac,
 #endif
             pMac->lim.gpSession[i].fWaitForProbeRsp = 0;
             pMac->lim.gpSession[i].fIgnoreCapsChange = 0;
+            /* following is invalid value since seq number is 12 bit */
+            pMac->lim.gpSession[i].prev_auth_seq_num = 0xFFFF;
 
             VOS_TRACE(VOS_MODULE_ID_PE, VOS_TRACE_LEVEL_DEBUG,
               "Create a new PE session (%d) with BSSID: "
@@ -749,6 +751,14 @@ void peDeleteSession(tpAniSirGlobal pMac, tpPESession psessionEntry)
     if (LIM_IS_AP_ROLE(psessionEntry)) {
        vos_timer_stop(&psessionEntry->protection_fields_reset_timer);
        vos_timer_destroy(&psessionEntry->protection_fields_reset_timer);
+    }
+
+    if (psessionEntry->reg_update_pwr_timer.state != 0) {
+        vos_timer_stop(&psessionEntry->reg_update_pwr_timer);
+        vos_timer_destroy(&psessionEntry->reg_update_pwr_timer);
+        if (psessionEntry->reg_update_pwr_timer.userData != NULL)
+            vos_mem_free(psessionEntry->reg_update_pwr_timer.userData);
+        psessionEntry->reg_update_pwr_timer.userData = NULL;
     }
 
 #if defined (WLAN_FEATURE_VOWIFI_11R)
