@@ -2968,12 +2968,28 @@ REG_TABLE_ENTRY g_registry_table[] =
                  CFG_ENABLE_FW_LOG_DISABLE,
                  CFG_ENABLE_FW_LOG_ENABLE),
 
+   REG_VARIABLE( CFG_ENABLE_FAST_FW_DUMP_NAME, WLAN_PARAM_Integer,
+                 hdd_config_t, fastfwdump,
+                 VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
+                 CFG_ENABLE_FAST_FW_DUMP_DEFAULT,
+                 CFG_ENABLE_FAST_FW_DUMP_DISABLE,
+                 CFG_ENABLE_FAST_FW_DUMP_ENABLE),
+
    REG_VARIABLE( CFG_ENABLE_FW_SELF_RECOVERY_NAME, WLAN_PARAM_Integer,
                  hdd_config_t, enableFwSelfRecovery,
                  VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
                  CFG_ENABLE_FW_SELF_RECOVERY_DEFAULT,
                  CFG_ENABLE_FW_SELF_RECOVERY_DISABLE,
                  CFG_ENABLE_FW_SELF_RECOVERY_ENABLE),
+
+#ifdef FEATURE_USB_WARM_RESET
+   REG_VARIABLE( CFG_ENABLE_USB_WARM_RESET_NAME, WLAN_PARAM_Integer,
+                 hdd_config_t, enable_usb_warm_reset,
+                 VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
+                 CFG_ENABLE_USB_WARM_RESET_DEFAULT,
+                 CFG_ENABLE_USB_WARM_RESET_DISABLE,
+                 CFG_ENABLE_USB_WARM_RESET_ENABLE),
+#endif
 
 #ifdef IPA_OFFLOAD
    REG_VARIABLE( CFG_IPA_OFFLOAD_CONFIG_NAME, WLAN_PARAM_HexInteger,
@@ -3400,6 +3416,13 @@ REG_TABLE_ENTRY g_registry_table[] =
                  CFG_THERMAL_SAMPLE_RATE_MIN,
                  CFG_THERMAL_SAMPLE_RATE_MAX),
 #endif /* FEATURE_WLAN_THERMAL_SHUTDOWN */
+
+   REG_VARIABLE( CFG_REMOVE_TIME_STAMP_SYNC_CMD_NAME, WLAN_PARAM_Integer,
+                 hdd_config_t, remove_time_stamp_sync_cmd,
+                 VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
+                 CFG_REMOVE_TIME_STAMP_SYNC_CMD_DEFAULT,
+                 CFG_REMOVE_TIME_STAMP_SYNC_CMD_MIN,
+                 CFG_REMOVE_TIME_STAMP_SYNC_CMD_MAX),
 
    /* Runtime DPD Recaliberation INI Parameters BEGINS */
    REG_VARIABLE( CFG_DPD_RECALIB_ENABLE_NAME, WLAN_PARAM_Integer,
@@ -3979,6 +4002,13 @@ REG_TABLE_ENTRY g_registry_table[] =
               CFG_ENABLE_SIFS_BURST_DEFAULT,
               CFG_ENABLE_SIFS_BURST_MIN,
               CFG_ENABLE_SIFS_BURST_MAX ),
+
+   REG_VARIABLE(CFG_KEEP_PASSIVE_DWELL_TIME, WLAN_PARAM_Integer,
+               hdd_config_t, keeppassivedwelltime,
+               VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
+               CFG_KEEP_PASSIVE_DWELL_TIME_DEFAULT,
+               CFG_KEEP_PASSIVE_DWELL_TIME_MIN,
+               CFG_KEEP_PASSIVE_DWELL_TIME_MAX),
 
 #ifdef WLAN_FEATURE_LPSS
    REG_VARIABLE(CFG_ENABLE_LPASS_SUPPORT, WLAN_PARAM_Integer,
@@ -4701,6 +4731,20 @@ REG_TABLE_ENTRY g_registry_table[] =
                 CFG_WOW_PULSE_INTERVAL_HIGH_DEFAULT,
                 CFG_WOW_PULSE_INTERVAL_HIGH_MIN,
                 CFG_WOW_PULSE_INTERVAL_HIGH_MAX),
+
+   REG_VARIABLE(CFG_WOW_PULSE_REPEAT_COUNT_NAME, WLAN_PARAM_Integer,
+                hdd_config_t, wow_pulse_repeat_count,
+                VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
+                CFG_WOW_PULSE_REPEAT_COUNT_DEFAULT,
+                CFG_WOW_PULSE_REPEAT_COUNT_MIN,
+                CFG_WOW_PULSE_REPEAT_COUNT_MAX),
+
+   REG_VARIABLE(CFG_WOW_PULSE_INIT_STATE_NAME, WLAN_PARAM_Integer,
+                hdd_config_t, wow_pulse_init_state,
+                VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
+                CFG_WOW_PULSE_INIT_STATE_DEFAULT,
+                CFG_WOW_PULSE_INIT_STATE_MIN,
+                CFG_WOW_PULSE_INIT_STATE_MAX),
 #endif
 
    REG_VARIABLE(CFG_MIB_STATS_ENABLED_NAME, WLAN_PARAM_Integer,
@@ -5344,12 +5388,26 @@ REG_TABLE_ENTRY g_registry_table[] =
 		CFG_CCA_THRESHOLD_5G_MIN,
 		CFG_CCA_THRESHOLD_5G_MAX),
 
+	REG_VARIABLE(CFG_SKIP_CRASH_INJECT_NAME, WLAN_PARAM_Integer,
+		hdd_config_t, skip_crash_inject,
+		VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
+		CFG_SKIP_CRASH_INJECT_DEFAULT,
+		CFG_SKIP_CRASH_INJECT_MIN,
+		CFG_SKIP_CRASH_INJECT_MAX),
+
 	REG_VARIABLE(CFG_ENABLE_MONITOR_ON_STA, WLAN_PARAM_Integer,
 		     hdd_config_t, mon_on_sta_enable,
 		     VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
 		     CFG_ENABLE_MONITOR_ON_STA_DEFAULT,
 		     CFG_ENABLE_MONITOR_ON_STA_MIN,
 		     CFG_ENABLE_MONITOR_ON_STA_MAX),
+
+	REG_VARIABLE(CFG_ENABLE_BCAST_PROBE_RESP_NAME, WLAN_PARAM_Integer,
+		struct hdd_config, enable_bcast_probe_rsp,
+		VAR_FLAGS_OPTIONAL | VAR_FLAGS_RANGE_CHECK_ASSUME_DEFAULT,
+		CFG_ENABLE_BCAST_PROBE_RESP_DEFAULT,
+		CFG_ENABLE_BCAST_PROBE_RESP_MIN,
+		CFG_ENABLE_BCAST_PROBE_RESP_MAX),
 };
 
 
@@ -5667,6 +5725,11 @@ void print_hdd_cfg(hdd_context_t *pHddCtx)
              "Name = [sap_channel_avoidance] value = [%u]",
              pHddCtx->cfg_ini->sap_channel_avoidance);
 #endif /* FEATURE_AP_MCC_CH_AVOIDANCE */
+
+  VOS_TRACE (VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH,
+             "Name = [%s] value = [%u]", CFG_REMOVE_TIME_STAMP_SYNC_CMD_NAME,
+             pHddCtx->cfg_ini->remove_time_stamp_sync_cmd);
+
   VOS_TRACE (VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH,
              "Name = [%s] value = [%u]", CFG_SAP_P2P_11AC_OVERRIDE_NAME,
              pHddCtx->cfg_ini->sap_p2p_11ac_override);
@@ -6044,6 +6107,10 @@ void print_hdd_cfg(hdd_context_t *pHddCtx)
           "Name = [gIpaUcStaOffload] Value = [%u] ",
                    pHddCtx->cfg_ini->ipa_uc_sta_offload);
 #endif
+
+  VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH,
+          "Name = [gSkipCrashInject] Value = [%u] ",
+                   pHddCtx->cfg_ini->skip_crash_inject);
 
 #ifdef DHCP_SERVER_OFFLOAD
   VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO_HIGH,
@@ -7981,6 +8048,20 @@ v_BOOL_t hdd_update_config_dat( hdd_context_t *pHddCtx )
        hddLog(LOGE, "Could not pass on WNI_CFG_RATE_FOR_TX_MGMT_5G to CCM");
    }
 
+   if (ccmCfgSetInt(pHddCtx->hHal, WNI_CFG_REMOVE_TIME_SYNC_CMD,
+                    pConfig->remove_time_stamp_sync_cmd, NULL,
+                    eANI_BOOLEAN_FALSE) == eHAL_STATUS_FAILURE) {
+       fStatus = FALSE;
+       hddLog(LOGE, "Could not pass on WNI_CFG_REMOVE_TIME_SYNC_CMD to CCM");
+   }
+
+   if (ccmCfgSetInt(pHddCtx->hHal, WNI_CFG_SKIP_CRASH_INJECT,
+                    pConfig->skip_crash_inject, NULL,
+                    eANI_BOOLEAN_FALSE) == eHAL_STATUS_FAILURE) {
+       fStatus = FALSE;
+       hddLog(LOGE, "Could not pass on WNI_CFG_SKIP_CRASH_INJECT to CCM");
+   }
+
    return fStatus;
 }
 
@@ -8406,6 +8487,10 @@ VOS_STATUS hdd_set_sme_config( hdd_context_t *pHddCtx )
 #ifdef WLAN_FEATURE_SAP_TO_FOLLOW_STA_CHAN
    smeConfig->csrConfig.sap_ch_switch_with_csa = pHddCtx->cfg_ini->sap_ch_switch_with_csa;
 #endif//#ifdef WLAN_FEATURE_SAP_TO_FOLLOW_STA_CHAN
+
+   smeConfig->csrConfig.enable_bcast_probe_rsp =
+                        pHddCtx->cfg_ini->enable_bcast_probe_rsp;
+
    halStatus = sme_UpdateConfig( pHddCtx->hHal, smeConfig);
    if ( !HAL_STATUS_SUCCESS( halStatus ) )
    {

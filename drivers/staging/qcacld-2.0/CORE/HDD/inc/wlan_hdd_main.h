@@ -1446,6 +1446,12 @@ struct hdd_adapter_s
     /* random address management for management action frames */
     spinlock_t random_mac_lock;
     struct action_frame_random_mac random_mac[MAX_RANDOM_MAC_ADDRS];
+    /*
+     * Store the restrict_offchannel count
+     * to cater to multiple application.
+     */
+    uint8_t restrict_offchannel_cnt;
+
 };
 
 #define WLAN_HDD_GET_STATION_CTX_PTR(pAdapter) (&(pAdapter)->sessionCtx.station)
@@ -2028,6 +2034,11 @@ struct hdd_context_s
     struct completion ready_to_extwow;
 #endif
 
+#ifdef FEATURE_PBM_MAGIC_WOW
+    struct easy_wow_context *easy_wow_ctx;
+#endif
+    bool is_nonos_suspend;
+
     /* Time since boot up to extscan start (in micro seconds) */
     v_U64_t ext_scan_start_since_boot;
 
@@ -2133,6 +2144,14 @@ struct hdd_context_s
 #ifdef WLAN_FEATURE_SAP_TO_FOLLOW_STA_CHAN
     sap_ch_switch_ctx  ch_switch_ctx;
 #endif//#ifdef WLAN_FEATURE_SAP_TO_FOLLOW_CHAN
+#ifdef FEATURE_WLAN_CH_AVOID
+    tHddAvoidFreqList dnbs_avoid_freq_list;
+    /* Lock to control access to dnbs avoid freq list */
+    struct mutex avoid_freq_lock;
+#endif
+    spinlock_t restrict_offchan_lock;
+    bool  restrict_offchan_flag;
+
 };
 
 /*---------------------------------------------------------------------------
@@ -2666,6 +2685,11 @@ void wlan_hdd_stop_enter_lowpower(hdd_context_t *hdd_ctx);
 void wlan_hdd_init_chan_info(hdd_context_t *hdd_ctx);
 void wlan_hdd_deinit_chan_info(hdd_context_t *hdd_ctx);
 
+#ifdef FEATURE_PBM_MAGIC_WOW
+void hdd_start_wow_nonos(hdd_adapter_t *pAdapter);
+void hdd_stop_wow_nonos(hdd_adapter_t *pAdapter);
+#endif
+
 void hdd_chip_pwr_save_fail_detected_cb(void *hddctx,
 				struct chip_pwr_save_fail_detected_params
 				*data);
@@ -2705,4 +2729,21 @@ hdd_wlan_nla_put_u64(struct sk_buff *skb, int attrtype, u64 value)
 				 QCA_WLAN_VENDOR_ATTR_LL_STATS_PAD);
 }
 #endif
+
+/**
+ * hdd_chan_change_notify() - Function to notify cfg80211 about channel change
+ * @adapter: adapter
+ * @dev: Net device structure
+ * @oper_chan: New operating channel
+ * @eCsrPhyMode: phy mode
+ *
+ * This function is used to notify cfg80211 about the channel change
+ *
+ * Return: Success on intimating userspace
+ *
+ */
+VOS_STATUS hdd_chan_change_notify(hdd_adapter_t *adapter,
+				  struct net_device *dev,
+				  uint8_t oper_chan,
+				  eCsrPhyMode phy_mode);
 #endif    // end #if !defined( WLAN_HDD_MAIN_H )

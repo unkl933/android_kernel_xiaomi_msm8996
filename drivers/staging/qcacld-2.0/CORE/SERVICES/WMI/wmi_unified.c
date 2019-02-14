@@ -794,7 +794,12 @@ static u_int8_t* get_wmi_cmd_string(WMI_CMD_ID wmi_command)
 		CASE_RETURN_STRING(WMI_MOTION_DET_START_STOP_CMDID);
 		CASE_RETURN_STRING(WMI_MOTION_DET_BASE_LINE_START_STOP_CMDID);
 		CASE_RETURN_STRING(WMI_MOTION_DET_CONFIG_PARAM_CMDID);
-
+		CASE_RETURN_STRING(WMI_PDEV_OBSS_PD_SPATIAL_REUSE_CMDID);
+		CASE_RETURN_STRING(WMI_PEER_CFR_CAPTURE_CMDID);
+		CASE_RETURN_STRING(WMI_PEER_CHAN_WIDTH_SWITCH_CMDID);
+		CASE_RETURN_STRING(WMI_PDEV_OBSS_PD_SPATIAL_REUSE_SET_DEF_OBSS_THRESH_CMDID);
+		CASE_RETURN_STRING(WMI_PDEV_HE_TB_ACTION_FRM_CMDID);
+		CASE_RETURN_STRING(WMI_HPCS_PULSE_START_CMDID);
 	}
 	return "Invalid WMI cmd";
 }
@@ -992,6 +997,8 @@ dont_tag:
 				return -EBUSY;
 			}
 			vos_trigger_recovery(true);
+		} else if (scn && scn->adf_dev) {
+			vos_device_crashed(scn->adf_dev->dev);
 		} else
 			VOS_BUG(0);
 		return -EBUSY;
@@ -1273,6 +1280,12 @@ void __wmi_control_rx(struct wmi_unified *wmi_handle, wmi_buf_t evt_buf)
 	default:
 		pr_info("%s: Unhandled WMI event %d\n", __func__, id);
 		break;
+	case WMI_SERVICE_AVAILABLE_EVENTID:
+		pr_info("%s: WMI UNIFIED SERVICE AVAILABLE event\n", __func__);
+		wma_rx_service_available_event(wmi_handle->scn_handle,
+					   wmi_cmd_struct_ptr);
+		break;
+
 	case WMI_SERVICE_READY_EVENTID:
 		pr_info("%s: WMI UNIFIED SERVICE READY event\n", __func__);
 		wma_rx_service_ready_event(wmi_handle->scn_handle,

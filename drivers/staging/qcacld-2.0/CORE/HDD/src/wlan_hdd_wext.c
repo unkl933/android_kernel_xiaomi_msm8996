@@ -134,119 +134,117 @@ static const hdd_freq_chan_map_t freq_chan_map[] = { {2412, 1}, {2417, 2},
         {5895, 179}, {5900, 180}, {5905, 181}, {5910, 182}, {5915, 183},
         {5920, 184} };
 
-#define FREQ_CHAN_MAP_TABLE_SIZE (sizeof(freq_chan_map)/sizeof(freq_chan_map[0]))
+#define FREQ_CHAN_MAP_TABLE_SIZE  (sizeof(freq_chan_map)/sizeof(freq_chan_map[0]))
 
 #define RC_2_RATE_IDX(_rc)        ((_rc) & 0x7)
-#define HT_RC_2_STREAMS(_rc)    ((((_rc) & 0x78) >> 3) + 1)
+#define HT_RC_2_STREAMS(_rc)      ((((_rc) & 0x78) >> 3) + 1)
 
-#define RC_2_RATE_IDX_11AC(_rc)        ((_rc) & 0xf)
-#define HT_RC_2_STREAMS_11AC(_rc)    ((((_rc) & 0x30) >> 4) + 1)
+#define RC_2_RATE_IDX_11AC(_rc)   ((_rc) & 0xf)
+#define HT_RC_2_STREAMS_11AC(_rc) ((((_rc) & 0x30) >> 4) + 1)
 
 /* Private ioctls and their sub-ioctls */
-#define WLAN_PRIV_SET_INT_GET_NONE    (SIOCIWFIRSTPRIV + 0)
-#define WE_SET_11D_STATE     1
-#define WE_WOWL              2
-#define WE_SET_POWER         3
-#define WE_SET_MAX_ASSOC     4
-#define WE_SET_SAP_AUTO_CHANNEL_SELECTION     5
-#define WE_SET_DATA_INACTIVITY_TO  6
-#define WE_SET_MAX_TX_POWER  7
-#define WE_SET_HIGHER_DTIM_TRANSITION   8
-#define WE_SET_TM_LEVEL      9
-#define WE_SET_PHYMODE       10
-#define WE_SET_NSS           11
-#define WE_SET_LDPC          12
-#define WE_SET_TX_STBC       13
-#define WE_SET_RX_STBC       14
-#define WE_SET_SHORT_GI      15
-#define WE_SET_RTSCTS        16
-#define WE_SET_CHWIDTH       17
-#define WE_SET_ANI_EN_DIS    18
-#define WE_SET_ANI_POLL_PERIOD    19
-#define WE_SET_ANI_LISTEN_PERIOD  20
-#define WE_SET_ANI_OFDM_LEVEL     21
-#define WE_SET_ANI_CCK_LEVEL      22
-#define WE_SET_DYNAMIC_BW         23
-#define WE_SET_TX_CHAINMASK  24
-#define WE_SET_RX_CHAINMASK  25
-#define WE_SET_11N_RATE      26
-#define WE_SET_AMPDU         27
-#define WE_SET_AMSDU         28
-#define WE_SET_TXPOW_2G      29
-#define WE_SET_TXPOW_5G      30
+#define WLAN_PRIV_SET_INT_GET_NONE                (SIOCIWFIRSTPRIV + 0)
+#define WE_SET_11D_STATE                          1
+#define WE_WOWL                                   2
+#define WE_SET_POWER                              3
+#define WE_SET_MAX_ASSOC                          4
+#define WE_SET_SAP_AUTO_CHANNEL_SELECTION         5
+#define WE_SET_DATA_INACTIVITY_TO                 6
+#define WE_SET_MAX_TX_POWER                       7
+#define WE_SET_HIGHER_DTIM_TRANSITION             8
+#define WE_SET_TM_LEVEL                           9
+#define WE_SET_PHYMODE                            10
+#define WE_SET_NSS                                11
+#define WE_SET_LDPC                               12
+#define WE_SET_TX_STBC                            13
+#define WE_SET_RX_STBC                            14
+#define WE_SET_SHORT_GI                           15
+#define WE_SET_RTSCTS                             16
+#define WE_SET_CHWIDTH                            17
+#define WE_SET_ANI_EN_DIS                         18
+#define WE_SET_ANI_POLL_PERIOD                    19
+#define WE_SET_ANI_LISTEN_PERIOD                  20
+#define WE_SET_ANI_OFDM_LEVEL                     21
+#define WE_SET_ANI_CCK_LEVEL                      22
+#define WE_SET_DYNAMIC_BW                         23
+#define WE_SET_TX_CHAINMASK                       24
+#define WE_SET_RX_CHAINMASK                       25
+#define WE_SET_11N_RATE                           26
+#define WE_SET_AMPDU                              27
+#define WE_SET_AMSDU                              28
+#define WE_SET_TXPOW_2G                           29
+#define WE_SET_TXPOW_5G                           30
 /* Private ioctl for firmware debug log */
-#define WE_DBGLOG_LOG_LEVEL             31
-#define WE_DBGLOG_VAP_ENABLE            32
-#define WE_DBGLOG_VAP_DISABLE           33
-#define WE_DBGLOG_MODULE_ENABLE         34
-#define WE_DBGLOG_MODULE_DISABLE        35
-#define WE_DBGLOG_MOD_LOG_LEVEL         36
-#define WE_DBGLOG_TYPE                  37
-#define WE_SET_TXRX_FWSTATS             38
-#define WE_SET_VHT_RATE                 39
-#define WE_DBGLOG_REPORT_ENABLE         40
-#define WE_TXRX_FWSTATS_RESET           41
-#define WE_SET_MAX_TX_POWER_2_4   42
-#define WE_SET_MAX_TX_POWER_5_0   43
+#define WE_DBGLOG_LOG_LEVEL                       31
+#define WE_DBGLOG_VAP_ENABLE                      32
+#define WE_DBGLOG_VAP_DISABLE                     33
+#define WE_DBGLOG_MODULE_ENABLE                   34
+#define WE_DBGLOG_MODULE_DISABLE                  35
+#define WE_DBGLOG_MOD_LOG_LEVEL                   36
+#define WE_DBGLOG_TYPE                            37
+#define WE_SET_TXRX_FWSTATS                       38
+#define WE_SET_VHT_RATE                           39
+#define WE_DBGLOG_REPORT_ENABLE                   40
+#define WE_TXRX_FWSTATS_RESET                     41
+#define WE_SET_MAX_TX_POWER_2_4                   42
+#define WE_SET_MAX_TX_POWER_5_0                   43
 /* 44 is unused */
 /* Private ioctl for packet power save */
-#define  WE_PPS_PAID_MATCH              45
-#define  WE_PPS_GID_MATCH               46
-#define  WE_PPS_EARLY_TIM_CLEAR         47
-#define  WE_PPS_EARLY_DTIM_CLEAR        48
-#define  WE_PPS_EOF_PAD_DELIM           49
-#define  WE_PPS_MACADDR_MISMATCH        50
-#define  WE_PPS_DELIM_CRC_FAIL          51
-#define  WE_PPS_GID_NSTS_ZERO           52
-#define  WE_PPS_RSSI_CHECK              53
+#define  WE_PPS_PAID_MATCH                        45
+#define  WE_PPS_GID_MATCH                         46
+#define  WE_PPS_EARLY_TIM_CLEAR                   47
+#define  WE_PPS_EARLY_DTIM_CLEAR                  48
+#define  WE_PPS_EOF_PAD_DELIM                     49
+#define  WE_PPS_MACADDR_MISMATCH                  50
+#define  WE_PPS_DELIM_CRC_FAIL                    51
+#define  WE_PPS_GID_NSTS_ZERO                     52
+#define  WE_PPS_RSSI_CHECK                        53
 /* 54 is unused */
-#define WE_SET_HTSMPS                   55
+#define WE_SET_HTSMPS                             55
 /* Private ioctl for QPower */
 #define WE_SET_QPOWER_MAX_PSPOLL_COUNT            56
 #define WE_SET_QPOWER_MAX_TX_BEFORE_WAKE          57
 #define WE_SET_QPOWER_SPEC_PSPOLL_WAKE_INTERVAL   58
 #define WE_SET_QPOWER_SPEC_MAX_SPEC_NODATA_PSPOLL 59
 
-#define WE_SET_BURST_ENABLE             60
-#define WE_SET_BURST_DUR                61
+#define WE_SET_BURST_ENABLE                       60
+#define WE_SET_BURST_DUR                          61
 /* GTX Commands */
-#define WE_SET_GTX_HT_MCS               62
-#define WE_SET_GTX_VHT_MCS              63
-#define WE_SET_GTX_USRCFG               64
-#define WE_SET_GTX_THRE                 65
-#define WE_SET_GTX_MARGIN               66
-#define WE_SET_GTX_STEP                 67
-#define WE_SET_GTX_MINTPC               68
-#define WE_SET_GTX_BWMASK               69
+#define WE_SET_GTX_HT_MCS                         62
+#define WE_SET_GTX_VHT_MCS                        63
+#define WE_SET_GTX_USRCFG                         64
+#define WE_SET_GTX_THRE                           65
+#define WE_SET_GTX_MARGIN                         66
+#define WE_SET_GTX_STEP                           67
+#define WE_SET_GTX_MINTPC                         68
+#define WE_SET_GTX_BWMASK                         69
 /* Private ioctl to configure MCC home channels time quota and latency */
-#define WE_MCC_CONFIG_LATENCY           70
-#define WE_MCC_CONFIG_QUOTA             71
+#define WE_MCC_CONFIG_LATENCY                     70
+#define WE_MCC_CONFIG_QUOTA                       71
 /* Private IOCTL for debug connection issues */
-#define WE_SET_DEBUG_LOG                72
-#define  WE_SET_SCAN_BAND_PREFERENCE    73
+#define WE_SET_DEBUG_LOG                          72
+#define  WE_SET_SCAN_BAND_PREFERENCE              73
 #ifdef WE_SET_TX_POWER
 #undef WE_SET_TX_POWER
 #endif
-#define WE_SET_TX_POWER                 74
+#define WE_SET_TX_POWER                           74
 /* Private ioctl for earlyrx power save feature */
-#define WE_SET_EARLY_RX_ADJUST_ENABLE         75
-#define WE_SET_EARLY_RX_TGT_BMISS_NUM         76
-#define WE_SET_EARLY_RX_BMISS_SAMPLE_CYCLE    77
-#define WE_SET_EARLY_RX_SLOP_STEP             78
-#define WE_SET_EARLY_RX_INIT_SLOP             79
-#define WE_SET_EARLY_RX_ADJUST_PAUSE          80
-#define WE_SET_MC_RATE                        81
-#define WE_SET_EARLY_RX_DRIFT_SAMPLE          82
+#define WE_SET_EARLY_RX_ADJUST_ENABLE             75
+#define WE_SET_EARLY_RX_TGT_BMISS_NUM             76
+#define WE_SET_EARLY_RX_BMISS_SAMPLE_CYCLE        77
+#define WE_SET_EARLY_RX_SLOP_STEP                 78
+#define WE_SET_EARLY_RX_INIT_SLOP                 79
+#define WE_SET_EARLY_RX_ADJUST_PAUSE              80
+#define WE_SET_MC_RATE                            81
+#define WE_SET_EARLY_RX_DRIFT_SAMPLE              82
 /* Private ioctl for packet power save */
-#define WE_PPS_5G_EBT                         83
-#define WE_SET_CTS_CBW                        84
-#define WE_DUMP_STATS                         85
-#define WE_CLEAR_STATS                        86
-#define WE_SET_CHANNEL                        87
-
-#define WE_SET_MODULATED_DTIM                 88
-
-#define WE_SET_MON_FILTER                     89
+#define WE_PPS_5G_EBT                             83
+#define WE_SET_CTS_CBW                            84
+#define WE_DUMP_STATS                             85
+#define WE_CLEAR_STATS                            86
+#define WE_SET_CHANNEL                            87
+#define WE_SET_MODULATED_DTIM                     88
+#define WE_SET_MON_FILTER                         89
 typedef enum eMonFilterType{
         MON_MGMT_PKT,
         MON_CTRL_PKT,
@@ -254,179 +252,180 @@ typedef enum eMonFilterType{
         MON_ALL_PKT,
 } tMonFilterType;
 
-#define WE_SET_TDLS_OFFCHANNEL_MODE           90
-#define WE_SET_TDLS_OFFCHANNEL                91
-#define WE_SET_TDLS_OFFCHANNEL_SEC_OFFSET     92
-
+#define WE_SET_TDLS_OFFCHANNEL_MODE               90
+#define WE_SET_TDLS_OFFCHANNEL                    91
+#define WE_SET_TDLS_OFFCHANNEL_SEC_OFFSET         92
 #ifdef WLAN_FEATURE_MOTION_DETECTION
-#define WE_MOTION_DET_START_STOP              93
-#define WE_MOTION_DET_BASE_LINE_START_STOP    94
+#define WE_MOTION_DET_START_STOP                  93
+#define WE_MOTION_DET_BASE_LINE_START_STOP        94
 #endif
+#define WE_SET_WOW_START                          95
 
 /* Private ioctls and their sub-ioctls */
-#define WLAN_PRIV_SET_NONE_GET_INT    (SIOCIWFIRSTPRIV + 1)
-#define WE_GET_11D_STATE     1
-#define WE_IBSS_STATUS       2
-#define WE_SET_SAP_CHANNELS  3
-#define WE_GET_WLAN_DBG      4
-#define WE_GET_MAX_ASSOC     6
+#define WLAN_PRIV_SET_NONE_GET_INT                (SIOCIWFIRSTPRIV + 1)
+#define WE_GET_11D_STATE                          1
+#define WE_IBSS_STATUS                            2
+#define WE_SET_SAP_CHANNELS                       3
+#define WE_GET_WLAN_DBG                           4
+#define WE_GET_MAX_ASSOC                          6
 /* 7 is unused */
-#define WE_GET_SAP_AUTO_CHANNEL_SELECTION 8
-#define WE_GET_CONCURRENCY_MODE 9
-#define WE_GET_NSS           11
-#define WE_GET_LDPC          12
-#define WE_GET_TX_STBC       13
-#define WE_GET_RX_STBC       14
-#define WE_GET_SHORT_GI      15
-#define WE_GET_RTSCTS        16
-#define WE_GET_CHWIDTH       17
-#define WE_GET_ANI_EN_DIS    18
-#define WE_GET_ANI_POLL_PERIOD    19
-#define WE_GET_ANI_LISTEN_PERIOD  20
-#define WE_GET_ANI_OFDM_LEVEL     21
-#define WE_GET_ANI_CCK_LEVEL      22
-#define WE_GET_DYNAMIC_BW         23
-#define WE_GET_TX_CHAINMASK  24
-#define WE_GET_RX_CHAINMASK  25
-#define WE_GET_11N_RATE      26
-#define WE_GET_AMPDU         27
-#define WE_GET_AMSDU         28
-#define WE_GET_TXPOW_2G      29
-#define WE_GET_TXPOW_5G      30
+#define WE_GET_SAP_AUTO_CHANNEL_SELECTION         8
+#define WE_GET_CONCURRENCY_MODE                   9
+#define WE_GET_NSS                                11
+#define WE_GET_LDPC                               12
+#define WE_GET_TX_STBC                            13
+#define WE_GET_RX_STBC                            14
+#define WE_GET_SHORT_GI                           15
+#define WE_GET_RTSCTS                             16
+#define WE_GET_CHWIDTH                            17
+#define WE_GET_ANI_EN_DIS                         18
+#define WE_GET_ANI_POLL_PERIOD                    19
+#define WE_GET_ANI_LISTEN_PERIOD                  20
+#define WE_GET_ANI_OFDM_LEVEL                     21
+#define WE_GET_ANI_CCK_LEVEL                      22
+#define WE_GET_DYNAMIC_BW                         23
+#define WE_GET_TX_CHAINMASK                       24
+#define WE_GET_RX_CHAINMASK                       25
+#define WE_GET_11N_RATE                           26
+#define WE_GET_AMPDU                              27
+#define WE_GET_AMSDU                              28
+#define WE_GET_TXPOW_2G                           29
+#define WE_GET_TXPOW_5G                           30
 /* 31 is unused */
-#define WE_GET_PPS_PAID_MATCH           32
-#define WE_GET_PPS_GID_MATCH            33
-#define WE_GET_PPS_EARLY_TIM_CLEAR      34
-#define WE_GET_PPS_EARLY_DTIM_CLEAR     35
-#define WE_GET_PPS_EOF_PAD_DELIM        36
-#define WE_GET_PPS_MACADDR_MISMATCH     37
-#define WE_GET_PPS_DELIM_CRC_FAIL       38
-#define WE_GET_PPS_GID_NSTS_ZERO        39
-#define WE_GET_PPS_RSSI_CHECK           40
+#define WE_GET_PPS_PAID_MATCH                     32
+#define WE_GET_PPS_GID_MATCH                      33
+#define WE_GET_PPS_EARLY_TIM_CLEAR                34
+#define WE_GET_PPS_EARLY_DTIM_CLEAR               35
+#define WE_GET_PPS_EOF_PAD_DELIM                  36
+#define WE_GET_PPS_MACADDR_MISMATCH               37
+#define WE_GET_PPS_DELIM_CRC_FAIL                 38
+#define WE_GET_PPS_GID_NSTS_ZERO                  39
+#define WE_GET_PPS_RSSI_CHECK                     40
 /* Private ioctl for QPower */
 #define WE_GET_QPOWER_MAX_PSPOLL_COUNT            41
 #define WE_GET_QPOWER_MAX_TX_BEFORE_WAKE          42
 #define WE_GET_QPOWER_SPEC_PSPOLL_WAKE_INTERVAL   43
 #define WE_GET_QPOWER_SPEC_MAX_SPEC_NODATA_PSPOLL 44
-#define WE_GET_BURST_ENABLE             45
-#define WE_GET_BURST_DUR                46
+#define WE_GET_BURST_ENABLE                       45
+#define WE_GET_BURST_DUR                          46
 /* GTX Commands */
-#define WE_GET_GTX_HT_MCS               47
-#define WE_GET_GTX_VHT_MCS              48
-#define WE_GET_GTX_USRCFG               49
-#define WE_GET_GTX_THRE                 50
-#define WE_GET_GTX_MARGIN               51
-#define WE_GET_GTX_STEP                 52
-#define WE_GET_GTX_MINTPC               53
-#define WE_GET_GTX_BWMASK               54
-#define WE_GET_SCAN_BAND_PREFERENCE     55
-#define WE_GET_TEMPERATURE              56
-#define WE_GET_FW_STATUS                57
-#define WE_CAP_TSF                      58
+#define WE_GET_GTX_HT_MCS                         47
+#define WE_GET_GTX_VHT_MCS                        48
+#define WE_GET_GTX_USRCFG                         49
+#define WE_GET_GTX_THRE                           50
+#define WE_GET_GTX_MARGIN                         51
+#define WE_GET_GTX_STEP                           52
+#define WE_GET_GTX_MINTPC                         53
+#define WE_GET_GTX_BWMASK                         54
+#define WE_GET_SCAN_BAND_PREFERENCE               55
+#define WE_GET_TEMPERATURE                        56
+#define WE_GET_FW_STATUS                          57
+#define WE_CAP_TSF                                58
 
 /* Private ioctls and their sub-ioctls */
-#define WLAN_PRIV_SET_INT_GET_INT     (SIOCIWFIRSTPRIV + 2)
-
+#define WLAN_PRIV_SET_INT_GET_INT                 (SIOCIWFIRSTPRIV + 2)
 /* Private ioctls and their sub-ioctls */
-#define WLAN_PRIV_SET_CHAR_GET_NONE   (SIOCIWFIRSTPRIV + 3)
-#define WE_WOWL_ADD_PTRN     1
-#define WE_WOWL_DEL_PTRN     2
+#define WLAN_PRIV_SET_CHAR_GET_NONE               (SIOCIWFIRSTPRIV + 3)
+#define WE_WOWL_ADD_PTRN                          1
+#define WE_WOWL_DEL_PTRN                          2
 #if defined WLAN_FEATURE_VOWIFI
-#define WE_NEIGHBOR_REPORT_REQUEST 3
+#define WE_NEIGHBOR_REPORT_REQUEST                3
 #endif
-#define WE_SET_AP_WPS_IE     4  //This is called in station mode to set probe rsp ie.
-#define WE_SET_CONFIG        5
+/* This is called in station mode to set probe rsp ie */
+#define WE_SET_AP_WPS_IE                          4
+#define WE_SET_CONFIG                             5
 
 /* Private ioctls and their sub-ioctls */
-#define WLAN_PRIV_SET_THREE_INT_GET_NONE   (SIOCIWFIRSTPRIV + 4)
-#define WE_SET_WLAN_DBG      1
-#define WE_SET_DP_TRACE      2
-#define WE_SET_SAP_CHANNELS  3
+#define WLAN_PRIV_SET_THREE_INT_GET_NONE          (SIOCIWFIRSTPRIV + 4)
+#define WE_SET_WLAN_DBG                           1
+#define WE_SET_DP_TRACE                           2
+#define WE_SET_SAP_CHANNELS                       3
+#define WE_SET_ADD_EASY_WOW_PORT                  4
+#define WE_SET_RM_EASY_WOW_PORT                   5
 
 /* Private ioctls and their sub-ioctls */
-#define WLAN_PRIV_GET_CHAR_SET_NONE   (SIOCIWFIRSTPRIV + 5)
-#define WE_WLAN_VERSION      1
-#define WE_GET_STATS         2
-#define WE_GET_CFG           3
-#define WE_GET_WMM_STATUS    4
-#define WE_GET_CHANNEL_LIST  5
+#define WLAN_PRIV_GET_CHAR_SET_NONE               (SIOCIWFIRSTPRIV + 5)
+#define WE_WLAN_VERSION                           1
+#define WE_GET_STATS                              2
+#define WE_GET_CFG                                3
+#define WE_GET_WMM_STATUS                         4
+#define WE_GET_CHANNEL_LIST                       5
 #ifdef WLAN_FEATURE_11AC
-#define WE_GET_RSSI          6
+#define WE_GET_RSSI                               6
 #endif
 #ifdef FEATURE_WLAN_TDLS
-#define WE_GET_TDLS_PEERS    8
+#define WE_GET_TDLS_PEERS                         8
 #endif
 #ifdef WLAN_FEATURE_11W
-#define WE_GET_11W_INFO      9
+#define WE_GET_11W_INFO                           9
 #endif
-#define WE_GET_STATES        10
-#define WE_GET_IBSS_STA_INFO 11
-#define WE_GET_PHYMODE       12
+#define WE_GET_STATES                             10
+#define WE_GET_IBSS_STA_INFO                      11
+#define WE_GET_PHYMODE                            12
 #ifdef FEATURE_OEM_DATA_SUPPORT
-#define WE_GET_OEM_DATA_CAP  13
+#define WE_GET_OEM_DATA_CAP                       13
 #endif
-#define WE_GET_SNR           14
+#define WE_GET_SNR                                14
 
 /* Private ioctls and their sub-ioctls */
-#define WLAN_PRIV_SET_NONE_GET_NONE   (SIOCIWFIRSTPRIV + 6)
-#define WE_ENABLE_DXE_STALL_DETECT 6
-#define WE_DISPLAY_DXE_SNAP_SHOT   7
-#define WE_SET_REASSOC_TRIGGER     8
-#define WE_DISPLAY_DATAPATH_SNAP_SHOT    9
-#define WE_IBSS_GET_PEER_INFO_ALL 10
-#define WE_DUMP_AGC_START          11
-#define WE_DUMP_AGC                12
-#define WE_DUMP_CHANINFO_START     13
-#define WE_DUMP_CHANINFO           14
-#define WE_DUMP_WATCHDOG           15
+#define WLAN_PRIV_SET_NONE_GET_NONE               (SIOCIWFIRSTPRIV + 6)
+#define WE_ENABLE_DXE_STALL_DETECT                6
+#define WE_DISPLAY_DXE_SNAP_SHOT                  7
+#define WE_SET_REASSOC_TRIGGER                    8
+#define WE_DISPLAY_DATAPATH_SNAP_SHOT             9
+#define WE_IBSS_GET_PEER_INFO_ALL                 10
+#define WE_DUMP_AGC_START                         11
+#define WE_DUMP_AGC                               12
+#define WE_DUMP_CHANINFO_START                    13
+#define WE_DUMP_CHANINFO                          14
+#define WE_DUMP_WATCHDOG                          15
 #ifdef CONFIG_ATH_PCIE_ACCESS_DEBUG
-#define WE_DUMP_PCIE_LOG           16
+#define WE_DUMP_PCIE_LOG                          16
 #endif
-#define WE_GET_RECOVERY_STAT       17
+#define WE_GET_RECOVERY_STAT                      17
 
 /* Private ioctls and their sub-ioctls */
-#define WLAN_PRIV_SET_VAR_INT_GET_NONE   (SIOCIWFIRSTPRIV + 7)
-#define WE_LOG_DUMP_CMD                              1
-
-#define WE_P2P_NOA_CMD                               2
+#define WLAN_PRIV_SET_VAR_INT_GET_NONE            (SIOCIWFIRSTPRIV + 7)
+#define WE_LOG_DUMP_CMD                           1
+#define WE_P2P_NOA_CMD                            2
 //IOCTL to configure MCC params
-#define WE_MCC_CONFIG_CREDENTIAL                     3
-#define WE_MCC_CONFIG_PARAMS                         4
-
+#define WE_MCC_CONFIG_CREDENTIAL                  3
+#define WE_MCC_CONFIG_PARAMS                      4
 #ifdef FEATURE_WLAN_TDLS
-#define WE_TDLS_CONFIG_PARAMS                        5
+#define WE_TDLS_CONFIG_PARAMS                     5
 #endif
-#define WE_IBSS_GET_PEER_INFO                        6
-#define WE_UNIT_TEST_CMD                             7
-
-#define WE_MTRACE_DUMP_CMD                           8
-#define WE_MTRACE_SELECTIVE_MODULE_LOG_ENABLE_CMD    9
-
+#define WE_IBSS_GET_PEER_INFO                     6
+#define WE_UNIT_TEST_CMD                          7
+#define WE_MTRACE_DUMP_CMD                        8
+#define WE_MTRACE_SELECTIVE_MODULE_LOG_ENABLE_CMD 9
 #ifdef WLAN_FEATURE_GPIO_LED_FLASHING
-#define WE_LED_FLASHING_PARAM                       10
+#define WE_LED_FLASHING_PARAM                     10
 #endif
 #ifdef MEMORY_DEBUG
-#define WE_MEM_TRACE_DUMP                           11
+#define WE_MEM_TRACE_DUMP                         11
 #endif
+
 #ifdef FEATURE_WLAN_TDLS
 #undef  MAX_VAR_ARGS
-#define MAX_VAR_ARGS                                11
+#define MAX_VAR_ARGS                              11
 #else
-#define MAX_VAR_ARGS                                 7
+#define MAX_VAR_ARGS                              7
 #endif
 
 #ifdef WLAN_FEATURE_MOTION_DETECTION
 #undef  MAX_VAR_ARGS
-#define MAX_VAR_ARGS                                15
-#define WE_MOTION_DET_CONFIG_PARAM                  12
-#define WE_MOTION_DET_BASE_LINE_CONFIG_PARAM        13
+#define MAX_VAR_ARGS                              15
+#define WE_MOTION_DET_CONFIG_PARAM                12
+#define WE_MOTION_DET_BASE_LINE_CONFIG_PARAM      13
 #endif
+#define WE_SET_THERMAL_THROTTLE_CONFIG            14
+#define WE_SET_HPCS_PULSE_PARAMS_CONFIG           15
 
 /* Private ioctls (with no sub-ioctls) */
 /* note that they must be odd so that they have "get" semantics */
-#define WLAN_PRIV_ADD_TSPEC (SIOCIWFIRSTPRIV +  9)
-#define WLAN_PRIV_DEL_TSPEC (SIOCIWFIRSTPRIV + 11)
-#define WLAN_PRIV_GET_TSPEC (SIOCIWFIRSTPRIV + 13)
+#define WLAN_PRIV_ADD_TSPEC                       (SIOCIWFIRSTPRIV +  9)
+#define WLAN_PRIV_DEL_TSPEC                       (SIOCIWFIRSTPRIV + 11)
+#define WLAN_PRIV_GET_TSPEC                       (SIOCIWFIRSTPRIV + 13)
 
 /* (SIOCIWFIRSTPRIV + 8)  is currently unused */
 /* (SIOCIWFIRSTPRIV + 16) is currently unused */
@@ -434,81 +433,74 @@ typedef enum eMonFilterType{
 /* (SIOCIWFIRSTPRIV + 12) is currently unused */
 /* (SIOCIWFIRSTPRIV + 14) is currently unused */
 
-#define WLAN_PRIV_SET_NONE_GET_THREE_INT   (SIOCIWFIRSTPRIV + 15)
+#define WLAN_PRIV_SET_NONE_GET_THREE_INT          (SIOCIWFIRSTPRIV + 15)
 #define WE_GET_TSF      1
 
 /* (SIOCIWFIRSTPRIV + 17) is currently unused */
 
-#define WLAN_GET_ISOLATION                (SIOCIWFIRSTPRIV + 19)
+#define WLAN_GET_ISOLATION                        (SIOCIWFIRSTPRIV + 19)
 
 #ifdef WLAN_FEATURE_VOWIFI_11R
-#define WLAN_PRIV_SET_FTIES             (SIOCIWFIRSTPRIV + 20)
+#define WLAN_PRIV_SET_FTIES                       (SIOCIWFIRSTPRIV + 20)
 #endif
 
 /* Private ioctl for setting the host offload feature */
-#define WLAN_PRIV_SET_HOST_OFFLOAD (SIOCIWFIRSTPRIV + 18)
-
+#define WLAN_PRIV_SET_HOST_OFFLOAD                (SIOCIWFIRSTPRIV + 18)
 /* Private ioctl to get the statistics */
-#define WLAN_GET_WLAN_STATISTICS (SIOCIWFIRSTPRIV + 21)
-
+#define WLAN_GET_WLAN_STATISTICS                  (SIOCIWFIRSTPRIV + 21)
 /* Private ioctl to set the Keep Alive Params */
-#define WLAN_SET_KEEPALIVE_PARAMS (SIOCIWFIRSTPRIV + 22)
+#define WLAN_SET_KEEPALIVE_PARAMS                 (SIOCIWFIRSTPRIV + 22)
+
 #ifdef WLAN_FEATURE_PACKET_FILTERING
 /* Private ioctl to set the Packet Filtering Params */
-#define WLAN_SET_PACKET_FILTER_PARAMS (SIOCIWFIRSTPRIV + 23)
+#define WLAN_SET_PACKET_FILTER_PARAMS             (SIOCIWFIRSTPRIV + 23)
 #endif
 
 #ifdef FEATURE_WLAN_SCAN_PNO
 /* Private ioctl to get the statistics */
-#define WLAN_SET_PNO (SIOCIWFIRSTPRIV + 24)
+#define WLAN_SET_PNO                              (SIOCIWFIRSTPRIV + 24)
 #endif
 
-#define WLAN_SET_BAND_CONFIG  (SIOCIWFIRSTPRIV + 25)  /*Don't change this number*/
-
-#define WLAN_PRIV_SET_MCBC_FILTER    (SIOCIWFIRSTPRIV + 26)
-#define WLAN_PRIV_CLEAR_MCBC_FILTER  (SIOCIWFIRSTPRIV + 27)
+#define WLAN_SET_BAND_CONFIG                      (SIOCIWFIRSTPRIV + 25)  /*Don't change this number*/
+#define WLAN_PRIV_SET_MCBC_FILTER                 (SIOCIWFIRSTPRIV + 26)
+#define WLAN_PRIV_CLEAR_MCBC_FILTER               (SIOCIWFIRSTPRIV + 27)
 /* Private ioctl to trigger reassociation */
-
-#define WLAN_SET_POWER_PARAMS        (SIOCIWFIRSTPRIV + 29)
-
+#define WLAN_SET_POWER_PARAMS                     (SIOCIWFIRSTPRIV + 29)
 /* 802.11p IOCTL */
-#define WLAN_SET_DOT11P_CHANNEL_SCHED   (SIOCIWFIRSTPRIV + 30)
-
-#define WLAN_GET_LINK_SPEED          (SIOCIWFIRSTPRIV + 31)
-
+#define WLAN_SET_DOT11P_CHANNEL_SCHED             (SIOCIWFIRSTPRIV + 30)
+#define WLAN_GET_LINK_SPEED                       (SIOCIWFIRSTPRIV + 31)
 /* Private ioctls and their sub-ioctls */
-#define WLAN_PRIV_SET_TWO_INT_GET_NONE   (SIOCIWFIRSTPRIV + 28)
-#define WE_SET_SMPS_PARAM    1
+#define WLAN_PRIV_SET_TWO_INT_GET_NONE            (SIOCIWFIRSTPRIV + 28)
+#define WE_SET_SMPS_PARAM                         1
 #ifdef WLAN_DEBUG
-#define WE_SET_FW_CRASH_INJECT    2
+#define WE_SET_FW_CRASH_INJECT                    2
 #endif
-#define WE_SET_MON_MODE_CHAN 3
-#define WE_DUMP_DP_TRACE_LEVEL    4
+#define WE_SET_MON_MODE_CHAN                      3
+#define WE_DUMP_DP_TRACE_LEVEL                    4
 
-#define WLAN_STATS_INVALID            0
-#define WLAN_STATS_RETRY_CNT          1
-#define WLAN_STATS_MUL_RETRY_CNT      2
-#define WLAN_STATS_TX_FRM_CNT         3
-#define WLAN_STATS_RX_FRM_CNT         4
-#define WLAN_STATS_FRM_DUP_CNT        5
-#define WLAN_STATS_FAIL_CNT           6
-#define WLAN_STATS_RTS_FAIL_CNT       7
-#define WLAN_STATS_ACK_FAIL_CNT       8
-#define WLAN_STATS_RTS_SUC_CNT        9
-#define WLAN_STATS_RX_DISCARD_CNT     10
-#define WLAN_STATS_RX_ERROR_CNT       11
-#define WLAN_STATS_TX_BYTE_CNT        12
 
-#define WLAN_STATS_RX_BYTE_CNT        13
-#define WLAN_STATS_RX_RATE            14
-#define WLAN_STATS_TX_RATE            15
-
-#define WLAN_STATS_RX_UC_BYTE_CNT     16
-#define WLAN_STATS_RX_MC_BYTE_CNT     17
-#define WLAN_STATS_RX_BC_BYTE_CNT     18
-#define WLAN_STATS_TX_UC_BYTE_CNT     19
-#define WLAN_STATS_TX_MC_BYTE_CNT     20
-#define WLAN_STATS_TX_BC_BYTE_CNT     21
+#define WLAN_STATS_INVALID                        0
+#define WLAN_STATS_RETRY_CNT                      1
+#define WLAN_STATS_MUL_RETRY_CNT                  2
+#define WLAN_STATS_TX_FRM_CNT                     3
+#define WLAN_STATS_RX_FRM_CNT                     4
+#define WLAN_STATS_FRM_DUP_CNT                    5
+#define WLAN_STATS_FAIL_CNT                       6
+#define WLAN_STATS_RTS_FAIL_CNT                   7
+#define WLAN_STATS_ACK_FAIL_CNT                   8
+#define WLAN_STATS_RTS_SUC_CNT                    9
+#define WLAN_STATS_RX_DISCARD_CNT                 10
+#define WLAN_STATS_RX_ERROR_CNT                   11
+#define WLAN_STATS_TX_BYTE_CNT                    12
+#define WLAN_STATS_RX_BYTE_CNT                    13
+#define WLAN_STATS_RX_RATE                        14
+#define WLAN_STATS_TX_RATE                        15
+#define WLAN_STATS_RX_UC_BYTE_CNT                 16
+#define WLAN_STATS_RX_MC_BYTE_CNT                 17
+#define WLAN_STATS_RX_BC_BYTE_CNT                 18
+#define WLAN_STATS_TX_UC_BYTE_CNT                 19
+#define WLAN_STATS_TX_MC_BYTE_CNT                 20
+#define WLAN_STATS_TX_BC_BYTE_CNT                 21
 
 #define FILL_TLV(__p, __type, __size, __val, __tlen) do {           \
         if ((__tlen + __size + 2) < WE_MAX_STR_LEN)                 \
@@ -525,14 +517,14 @@ typedef enum eMonFilterType{
         }                                                           \
     } while(0);
 
-#define VERSION_VALUE_MAX_LEN 32
+#define VERSION_VALUE_MAX_LEN                 32
 
-#define TX_PER_TRACKING_DEFAULT_RATIO             5
-#define TX_PER_TRACKING_MAX_RATIO                10
-#define TX_PER_TRACKING_DEFAULT_WATERMARK         5
+#define TX_PER_TRACKING_DEFAULT_RATIO         5
+#define TX_PER_TRACKING_MAX_RATIO             10
+#define TX_PER_TRACKING_DEFAULT_WATERMARK     5
 
-#define WLAN_ADAPTER 0
-#define P2P_ADAPTER  1
+#define WLAN_ADAPTER                          0
+#define P2P_ADAPTER                           1
 
 /*MCC Configuration parameters */
 enum {
@@ -1093,7 +1085,6 @@ eHalStatus hdd_wlan_get_ibss_peer_info_all(hdd_adapter_t *pAdapter)
 
 int hdd_wlan_get_rts_threshold(hdd_adapter_t *pAdapter, union iwreq_data *wrqu)
 {
-    tHalHandle hHal = WLAN_HDD_GET_HAL_CTX(pAdapter);
     v_U32_t threshold = 0;
     hdd_context_t *hdd_ctx;
     int ret;
@@ -1112,8 +1103,9 @@ int hdd_wlan_get_rts_threshold(hdd_adapter_t *pAdapter, union iwreq_data *wrqu)
         return ret;
 
 
-    if ( eHAL_STATUS_SUCCESS !=
-                     ccmCfgGetInt(hHal, WNI_CFG_RTS_THRESHOLD, &threshold) )
+    if (eHAL_STATUS_SUCCESS !=
+                        ccmCfgGetInt(WLAN_HDD_GET_HAL_CTX(pAdapter),
+                                     WNI_CFG_RTS_THRESHOLD, &threshold))
     {
        VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_WARN,
                       FL("failed to get ini parameter, WNI_CFG_RTS_THRESHOLD"));
@@ -3496,6 +3488,32 @@ static void iw_power_offload_callback_fn(void *context, tANI_U32 session_id,
 	hdd_request_put(request);
 }
 
+/**
+ * iw_offload_disable_pwr_cb() - Callback function registered with PMC to
+ * know status of PMC request
+ *
+ * @context: pointer to calling context
+ * @session_id: session_id
+ * @status: eHAL_STATUS_SUCCESS if success else eHalStatus error code
+ *
+ * Return:
+ */
+static void iw_offload_disable_pwr_cb(void *context, tANI_U32 session_id,
+				      eHalStatus status)
+{
+	struct hdd_request *request;
+
+	request = hdd_request_get(context);
+	if (!request) {
+		hddLog(VOS_TRACE_LEVEL_ERROR, "%s: Obsolete request",
+		       __func__);
+		return;
+	}
+
+	hdd_request_complete(request);
+	hdd_request_put(request);
+}
+
 /* Callback function for tx per hit */
 void hdd_tx_per_hit_cb (void *pCallbackContext)
 {
@@ -3694,8 +3712,10 @@ static void hdd_get_station_statistics_cb(void *stats, void *context)
  */
 VOS_STATUS wlan_hdd_get_station_stats(hdd_adapter_t *pAdapter)
 {
-	hdd_station_ctx_t *pHddStaCtx = WLAN_HDD_GET_STATION_CTX_PTR(pAdapter);
+	hdd_station_ctx_t *pHddStaCtx;
+	hdd_ap_ctx_t *sap_ctx;
 	eHalStatus hstatus;
+	tANI_U8 sta_id;
 	int ret;
 	void *cookie;
 	struct hdd_request *request;
@@ -3708,6 +3728,14 @@ VOS_STATUS wlan_hdd_get_station_stats(hdd_adapter_t *pAdapter)
 	if (NULL == pAdapter) {
 		hddLog(VOS_TRACE_LEVEL_ERROR, "%s: pAdapter is NULL", __func__);
 		return VOS_STATUS_SUCCESS;
+	}
+
+	if (pAdapter->device_mode == WLAN_HDD_SOFTAP) {
+		sap_ctx = WLAN_HDD_GET_AP_CTX_PTR(pAdapter);
+		sta_id = sap_ctx->uBCStaId;
+	} else {
+		pHddStaCtx = WLAN_HDD_GET_STATION_CTX_PTR(pAdapter);
+		sta_id = pHddStaCtx->conn_info.staId[0];
 	}
 
 	request = hdd_request_alloc(&params);
@@ -3727,7 +3755,7 @@ VOS_STATUS wlan_hdd_get_station_stats(hdd_adapter_t *pAdapter)
 				     hdd_get_station_statistics_cb,
 				     0, /* not periodic */
 				     FALSE, /* non-cached results */
-				     pHddStaCtx->conn_info.staId[0],
+				     sta_id,
 				     cookie, pAdapter->sessionId);
 	if (eHAL_STATUS_SUCCESS != hstatus) {
 		hddLog(VOS_TRACE_LEVEL_ERROR,
@@ -4092,12 +4120,6 @@ VOS_STATUS  wlan_hdd_set_powersave(hdd_adapter_t *pAdapter, int mode)
 {
    hdd_context_t *pHddCtx;
    eHalStatus status;
-   void *cookie;
-   struct hdd_request *request;
-   static const struct hdd_request_params params = {
-       .priv_size = 0,
-       .timeout_ms = WLAN_WAIT_TIME_POWER,
-   };
 
    if (NULL == pAdapter)
    {
@@ -4105,20 +4127,27 @@ VOS_STATUS  wlan_hdd_set_powersave(hdd_adapter_t *pAdapter, int mode)
        return VOS_STATUS_E_FAULT;
    }
 
-   request = hdd_request_alloc(&params);
-   if (!request) {
-       hddLog(VOS_TRACE_LEVEL_ERROR,
-              "%s: Request allocation failure", __func__);
-       return VOS_STATUS_E_NOMEM;
-   }
-   cookie = hdd_request_cookie(request);
-
    hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "power mode=%d", mode);
 
    pHddCtx = WLAN_HDD_GET_CTX(pAdapter);
 
    if (DRIVER_POWER_MODE_ACTIVE == mode)
    {
+       void *cookie;
+       struct hdd_request *request;
+       static const struct hdd_request_params params = {
+           .priv_size = 0,
+           .timeout_ms = WLAN_WAIT_TIME_POWER,
+       };
+
+       request = hdd_request_alloc(&params);
+       if (!request) {
+           hddLog(VOS_TRACE_LEVEL_ERROR,
+                  "%s: Request allocation failure", __func__);
+           return VOS_STATUS_E_NOMEM;
+       }
+       cookie = hdd_request_cookie(request);
+
        hddLog(VOS_TRACE_LEVEL_INFO_HIGH, "%s:Wlan driver Entering "
                "Full Power", __func__);
 
@@ -5583,10 +5612,6 @@ int wlan_hdd_update_phymode(struct net_device *net, tHalHandle hal,
     return 0;
 }
 
-struct temperature_info {
-	int temperature;
-};
-
 void hdd_GetTemperatureCB(int temperature, void *cookie)
 {
 	struct hdd_request *request;
@@ -5956,6 +5981,85 @@ static int __iw_setint_getnone(struct net_device *dev,
 #endif
               case  14://reset wlan (power down/power up)
                  break;
+              case  15:
+                  if (NULL == hHal) {
+                      hddLog(VOS_TRACE_LEVEL_ERROR,
+                             "%s: mac ptr NULL when setpwr param 15",
+                             __func__);
+                      return -EINVAL;
+                  }
+
+                  if (!(pHddCtx->cfg_ini->enablePowersaveOffload &&
+                      (false == pHddCtx->is_mon_enable) &&
+                      ((WLAN_HDD_INFRA_STATION == pAdapter->device_mode) ||
+                      (WLAN_HDD_P2P_CLIENT == pAdapter->device_mode)))) {
+                      hddLog(LOGE, "device mode not support enable bmps dyn");
+                      return -EIO;
+                  }
+
+                  sme_EnablePowerSave(hHal, ePMC_BEACON_MODE_POWER_SAVE);
+                  sme_ConfigEnablePowerSave(pHddCtx->hHal,
+                                            ePMC_BEACON_MODE_POWER_SAVE);
+
+                  if (hdd_connIsConnected(pHddStaCtx))
+                      sme_PsOffloadEnablePowerSave(hHal, pAdapter->sessionId);
+                  break;
+              case  16:
+              {
+                  struct hdd_request *request;
+                  void *cookie;
+                  static const struct hdd_request_params params = {
+                      .priv_size = 0,
+                      .timeout_ms = WLAN_WAIT_TIME_POWER,
+                  };
+                  eHalStatus status = eHAL_STATUS_FAILURE;
+
+                  if (NULL == hHal) {
+                      hddLog(VOS_TRACE_LEVEL_ERROR,
+                             "%s: mac ptr NULL when setpwr param 16",
+                             __func__);
+                      return -EINVAL;
+                  }
+
+                  if (!(pHddCtx->cfg_ini->enablePowersaveOffload &&
+                      ((WLAN_HDD_INFRA_STATION == pAdapter->device_mode) ||
+                      (WLAN_HDD_P2P_CLIENT == pAdapter->device_mode)))) {
+                     hddLog(LOGE, "device mode not support disable bmps dyn");
+                     return -EIO;
+                  }
+
+                  request = hdd_request_alloc(&params);
+                  if (!request) {
+                      hddLog(VOS_TRACE_LEVEL_ERROR,
+                             "%s: Request alloc fail for disable bmps dyn",
+                             __func__);
+                      return VOS_STATUS_E_NOMEM;
+                  }
+
+                  cookie = hdd_request_cookie(request);
+                  status =
+                      sme_PsOffloadDisablePowerSave(hHal,
+                                                    iw_offload_disable_pwr_cb,
+                                                    cookie, pAdapter->sessionId);
+                  if (eHAL_STATUS_PMC_PENDING == status) {
+                      if (hdd_request_wait_for_response(request)) {
+                          hddLog(VOS_TRACE_LEVEL_ERROR,
+                                 FL("SME timed out when req full power"));
+                      }
+                  }
+
+                  /*
+                   * either we never sent a request, we sent a request and
+                   * received a response or we sent a request and timed out.
+                   * regardless we are done with the request.
+                   */
+                  hdd_request_put(request);
+                  sme_DisablePowerSave(hHal, ePMC_BEACON_MODE_POWER_SAVE);
+                  sme_ConfigDisablePowerSave(pHddCtx->hHal,
+                                             ePMC_BEACON_MODE_POWER_SAVE);
+                  hddLog(LOGE, "iwpriv req Full Power completed");
+                  break;
+              }
               default:
                  hddLog(LOGE, "Invalid arg  %d in WE_SET_POWER IOCTL", set_value);
                  ret = -EINVAL;
@@ -7126,6 +7230,20 @@ static int __iw_setint_getnone(struct net_device *dev,
             }
             break;
 #endif
+#ifdef FEATURE_PBM_MAGIC_WOW
+        case WE_SET_WOW_START:
+        {
+            if ((set_value != 1) && (set_value != 0)) {
+                hddLog(LOGE, "Invalid value %d set wow_start", set_value);
+                return -EINVAL;
+            }
+            if (set_value)
+                hdd_start_wow_nonos(pAdapter);
+	    else
+                hdd_stop_wow_nonos(pAdapter);
+	    break;
+        }
+#endif
         default:
         {
             hddLog(LOGE, "%s: Invalid sub command %d", __func__, sub_cmd);
@@ -7210,11 +7328,13 @@ static int __iw_setchar_getnone(struct net_device *dev,
     {
        case WE_WOWL_ADD_PTRN:
           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "ADD_PTRN");
-          hdd_add_wowl_ptrn(pAdapter, pBuffer);
+          if (!hdd_add_wowl_ptrn(pAdapter, pBuffer))
+             ret = -EINVAL;
           break;
        case WE_WOWL_DEL_PTRN:
           VOS_TRACE(VOS_MODULE_ID_HDD, VOS_TRACE_LEVEL_INFO, "DEL_PTRN");
-          hdd_del_wowl_ptrn(pAdapter, pBuffer);
+          if (!hdd_del_wowl_ptrn(pAdapter, pBuffer))
+             ret = -EINVAL;
           break;
 #if defined WLAN_FEATURE_VOWIFI
        case WE_NEIGHBOR_REPORT_REQUEST:
@@ -7945,7 +8065,16 @@ static int __iw_set_three_ints_getnone(struct net_device *dev,
             hdd_ctx->cfg_ini->force_sap_acs_end_ch = value[2];
         }
         break;
-
+#ifdef FEATURE_PBM_MAGIC_WOW
+    case WE_SET_ADD_EASY_WOW_PORT:
+        if (!hdd_add_easy_wow_ptrn(pAdapter, value[1], value[2], 0, 0, value[3]))
+            ret = -EINVAL;
+        break;
+    case WE_SET_RM_EASY_WOW_PORT:
+        if (!hdd_del_easy_wow_ptrn(pAdapter, value[1], value[2], 0, 0, value[3]))
+            ret = -EINVAL;
+        break;
+#endif
     default:
        hddLog(LOGE, "%s: Invalid IOCTL command %d", __func__, sub_cmd );
        break;
@@ -8958,6 +9087,101 @@ static int __iw_set_var_ints_getnone(struct net_device *dev,
             }
             break;
 #endif
+        case WE_SET_THERMAL_THROTTLE_CONFIG:
+            {
+                if (pHddCtx->cfg_ini->thermalMitigationEnable) {
+                    hddLog(LOGE, "Thermal Mitigation enabled by driver "
+                           "Ignoring user based thermal throttle parameters!");
+                    return -EINVAL;
+                }
+
+                if (num_args != 6) {
+                    hddLog(LOGE, FL("setThermalConfig: 6 args are required\n"
+                           "Ex: iwpriv wlan0 setThermalConfig enable dc "
+                           "dc_off_percent prio lower_thresh_deg upper_thresh_deg"));
+                    return -EINVAL;
+                }
+
+                if (apps_args[0] < 0 || apps_args[1] < 0 || apps_args[2] < 0
+                    || apps_args[3] < 0 || apps_args[4] < 0 || apps_args[5] < 0) {
+                    hddLog(LOGE, FL("setThermalConfig: Invalid values"));
+                    return -EINVAL;
+                }
+
+                if (apps_args[0] < 0 || apps_args[0] > 1) {
+                    hddLog(LOGE, FL("setThermalConfig: Invalid Enable value"));
+                    return -EINVAL;
+                }
+
+
+                if (apps_args[2] < 0 || apps_args[2] > 100) {
+                    hddLog(LOGE, FL("setThermalConfig: Invalid dc_off_percent value"));
+                    return -EINVAL;
+                }
+
+                if (apps_args[3] < 0 || apps_args[3] > 3) {
+                    hddLog(LOGE, FL("setThermalConfig: Invalid Priority value"));
+                    return -EINVAL;
+                }
+
+                if (apps_args[5] <= apps_args[4]) {
+                    hddLog(LOGE, FL("setThermalConfig: Invalid Temp Threshold values"));
+                    return -EINVAL;
+                }
+
+                hddLog(LOG1, "ARGS %x %x %x %x %x %x\n",apps_args[0], apps_args[1],
+                       apps_args[2], apps_args[3], apps_args[4], apps_args[5]);
+
+                ret = sme_thermal_throttle_set_conf_cmd(pAdapter, apps_args[0],
+                                                     apps_args[1], apps_args[2],
+                                                     apps_args[3]);
+                if (ret != eHAL_STATUS_SUCCESS)
+                    return -EINVAL;
+
+
+                ret = sme_thermal_throttle_mgmt_cmd(pAdapter, apps_args[4],
+                                                    apps_args[5]);
+                if (ret != eHAL_STATUS_SUCCESS)
+                    return -EINVAL;
+            }
+            break;
+
+        case WE_SET_HPCS_PULSE_PARAMS_CONFIG:
+            {
+                tSirHpcsPulseParmasConfig config;
+                if (num_args != 6) {
+                    hddLog(LOGE, FL("setHpcsParams: 6 args are required\n"
+                           "Ex: iwpriv wlan0 setHpcsParams start sync_time "
+                           "pulse_interval active_sync_period gpio_pin pulse_width"));
+                    return -EINVAL;
+                }
+
+                if (apps_args[0] < 0 || apps_args[0] > 1 || apps_args[1] < 0
+                    || apps_args[2] <= 10000 || apps_args[3] < 0 || apps_args[4] < 0
+                    || apps_args[5] < 10000) {
+                    hddLog(LOGE, FL("setHpcsParams: Invalid values"));
+                    return -EINVAL;
+                }
+
+                hddLog(LOG1, "setHpcsParams vdev_id:%d args %x %x %x %x %x %x\n",
+                              pAdapter->sessionId, apps_args[0], apps_args[1],
+                              apps_args[2], apps_args[3], apps_args[4], apps_args[5]);
+
+                config.vdev_id            = pAdapter->sessionId;
+                config.start              = apps_args[0];
+                config.sync_time          = apps_args[1];
+                config.pulse_interval     = apps_args[2];
+                config.active_sync_period = apps_args[3];
+                config.gpio_pin           = apps_args[4];
+                config.pulse_width        = apps_args[5];
+
+                ret = sme_hpcs_pulse_params_conf_cmd(pAdapter, &config);
+
+                if (ret != eHAL_STATUS_SUCCESS)
+                    return -EINVAL;
+            }
+            break;
+
         default:
             {
                 hddLog(LOGE, FL("Invalid IOCTL command %d"), sub_cmd );
@@ -12250,7 +12474,17 @@ static const struct iw_priv_args we_private_args[] = {
         IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 3,
         0,
         "setsapchannels" },
+#ifdef FEATURE_PBM_MAGIC_WOW
+    {   WE_SET_ADD_EASY_WOW_PORT,
+        IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 3,
+        0,
+        "add_wow_port" },
 
+    {   WE_SET_RM_EASY_WOW_PORT,
+        IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 3,
+        0,
+        "rm_wow_port" },
+#endif
      /* handlers for main ioctl */
     {   WLAN_PRIV_SET_NONE_GET_THREE_INT,
         0,
@@ -12572,6 +12806,12 @@ static const struct iw_priv_args we_private_args[] = {
     {   WE_DUMP_DP_TRACE_LEVEL,
         IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 2,
         0, "dump_dp_trace"},
+#ifdef FEATURE_PBM_MAGIC_WOW
+    {
+        WE_SET_WOW_START,
+        IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1,
+        0, "wow_start" },
+#endif
     {
         WLAN_PRIV_SET_FTIES,
         IW_PRIV_TYPE_CHAR | MAX_FTIE_SIZE,
@@ -12594,6 +12834,12 @@ static const struct iw_priv_args we_private_args[] = {
         IW_PRIV_TYPE_INT | IW_PRIV_SIZE_FIXED | 1,
         0, "mt_bl_start"},
 #endif
+    {   WE_SET_THERMAL_THROTTLE_CONFIG,
+        IW_PRIV_TYPE_INT | MAX_VAR_ARGS,
+        0, "setThermalConfig" },
+    {   WE_SET_HPCS_PULSE_PARAMS_CONFIG,
+        IW_PRIV_TYPE_INT | MAX_VAR_ARGS,
+        0, "setHpcsParams" },
 };
 
 
