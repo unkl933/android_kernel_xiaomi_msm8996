@@ -40,13 +40,13 @@ setprop() {
 	fi
 }
 
-enabled=false
-if [ "$enabled" = true ] ; then
+print "" && print "Script: 010-no-dm-verity.sh"
+dmverity=false
+
+if [ "$dmverity" = true ] ; then
 {
 	. "$env"
-
-	temp=/tmp/anykernel/ramdisk
-
+	temp=/tmp/anykernel/ramdis
 	print "Disabling dm-verity in the fstab..."
 	found_fstab=false
 
@@ -79,12 +79,39 @@ if [ "$enabled" = true ] ; then
 		print "Script finished"
 	done
 
-	$found_fstab || print "Unable to find the fstab!" && print ""
+	$found_fstab || print "Unable to find the fstab!"
 
 }
 else
 {
-	print "Script disabled by default" && print ""
+	print "Script disabled by default"
+}
+fi
+
+print "" && print "Script: 015-selinux-permissive.sh"
+selinux=true
+if [ "$selinux" = true ] ; then
+{
+	temp=/tmp/anykernel/split_img
+	found_cmdline=false
+
+	for cmdline in boot.img-cmdline; do
+		[ -f $temp/$cmdline ] || continue
+		print "Found cmdline: $cmdline" && print "Setting SELinux to Permissive..."
+        echo "androidboot.hardware=qcom ehci-hcd.park=3 lpm_levels.sleep_disabled=1 cma=32M@0-0xffffffff androidboot.selinux=permissive buildvariant=userdebug" >> $temp/boot.img-cmdline-new
+		cat $temp/boot.img-cmdline-new > $temp/$cmdline	
+        rm -rf $temp/boot.img-cmdline-new 
+		found_cmdline=true
+		print "Script finished"
+	done
+
+	$found_cmdline || print "Unable to find the boot.img-cmdline!"
+	
+}
+
+else
+{
+	print "Script disabled by default"
 }
 fi
 
