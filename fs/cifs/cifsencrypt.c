@@ -556,7 +556,7 @@ static int calc_ntlmv2_hash(struct cifs_ses *ses, char *ntlmv2_hash,
 				 __func__);
 			return rc;
 		}
-	} else if (ses->serverName) {
+	} else {
 		len = strlen(ses->serverName);
 
 		server = kmalloc(2 + (len * 2), GFP_KERNEL);
