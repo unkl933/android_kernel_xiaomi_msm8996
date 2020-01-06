@@ -146,7 +146,12 @@ then
 	then
 		make -j${NR_CPUS} &>/dev/null | loop
 	else
-		make -j${NR_CPUS}
+        if  [ "${TARGET_CC}" == "gcc" ]
+        then
+            make -j${NR_CPUS} 
+        else
+            make -j${NR_CPUS} CC=clang CLANG_TRIPLE=${TARGET_CLANG_TRIPLE} CROSS_COMPILE=${TARGET_CROSS_COMPILE}
+        fi
 	fi
 
 	END=$(date +"%s")
