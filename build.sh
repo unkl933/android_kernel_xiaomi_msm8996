@@ -458,7 +458,7 @@ elif [ -e build.sh ]; then
 	maintainer=JonasCardoso
 	customkernel=FloppyKernel
 	romversion=HMP
-	androidversion=Pie
+	androidversion=Ten
 	export ARCH=arm64
 
 	while true
