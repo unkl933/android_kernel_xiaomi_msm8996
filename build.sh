@@ -263,10 +263,7 @@ if [ -f arch/${ARCH}/boot/Image.gz ] || [ -f arch/${ARCH}/boot/Image.lzma ] || [
 		echo "ToolchainName=${ToolchainName}" >> ${zipdirout}/device.prop
 		echo "romversion=${romversion}" >> ${zipdirout}/device.prop
 		echo "androidversion=${androidversion}" >> ${zipdirout}/device.prop
-		echo "name1=${name1}" >> ${zipdirout}/device.prop
-		echo "name2=${name2}" >> ${zipdirout}/device.prop
-		echo "name3=${name3}" >> ${zipdirout}/device.prop
-		echo "name4=${name4}" >> ${zipdirout}/device.prop
+        sed -i "/supported.versions=/i device.name1=${name}\ndevice.name2=${name1}\ndevice.name3=${name2}\ndevice.name4=${name3}\ndevice.name5=${name4}" ${zipdirout}/anykernel.sh
 
 		cd ${zipdirout}
 		zip -r ${zipfile} * -x .gitignore &> /dev/null
