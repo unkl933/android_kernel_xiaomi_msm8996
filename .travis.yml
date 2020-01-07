@@ -4,49 +4,49 @@ env:
   matrix:
 # Xiaomi Mi5
     - ndevicechoice="0"
+      ntoolchain="40"
+    - ndevicechoice="0"
+      ntoolchain="41"
+    - ndevicechoice="0"
       ntoolchain="42"
     - ndevicechoice="0"
-      ntoolchain="46"
-    - ndevicechoice="0"
-      ntoolchain="47"
-    - ndevicechoice="0"
-      ntoolchain="49"
+      ntoolchain="43"
 # Xiaomi Mi5S
     - ndevicechoice="1"
+      ntoolchain="40"
+    - ndevicechoice="1"
+      ntoolchain="41"
+    - ndevicechoice="1"
       ntoolchain="42"
     - ndevicechoice="1"
-      ntoolchain="46"
-    - ndevicechoice="1"
-      ntoolchain="47"
-    - ndevicechoice="1"
-      ntoolchain="49"
+      ntoolchain="43"
 # Xiaomi Mi5S Plus
     - ndevicechoice="2"
+      ntoolchain="40"
+    - ndevicechoice="2"
+      ntoolchain="41"
+    - ndevicechoice="2"
       ntoolchain="42"
     - ndevicechoice="2"
-      ntoolchain="46"
-    - ndevicechoice="2"
-      ntoolchain="47"
-    - ndevicechoice="2"
-      ntoolchain="49"
+      ntoolchain="43"
 # Xiaomi Mi Mix
     - ndevicechoice="3"
+      ntoolchain="40"
+    - ndevicechoice="3"
+      ntoolchain="41"
+    - ndevicechoice="3"
       ntoolchain="42"
     - ndevicechoice="3"
-      ntoolchain="46"
-    - ndevicechoice="3"
-      ntoolchain="47"
-    - ndevicechoice="3"
-      ntoolchain="49"
+      ntoolchain="43"
 # Xiaomi Mi Note 2
     - ndevicechoice="4"
+      ntoolchain="40"
+    - ndevicechoice="4"
+      ntoolchain="41"
+    - ndevicechoice="4"
       ntoolchain="42"
     - ndevicechoice="4"
-      ntoolchain="46"
-    - ndevicechoice="4"
-      ntoolchain="47"
-    - ndevicechoice="4"
-      ntoolchain="49"
+      ntoolchain="43"
 before_script:
 # Print build info that binary is compiled with.
   - echo $TRAVIS_COMMIT
@@ -58,14 +58,16 @@ before_script:
 #  - git fetch --tags
 #  - git tag
 script:
-# The build.sh need LZ4 and ubuntu 12.xx not support 'LZ4' officialy
-- sudo add-apt-repository ppa:nathan-renniewaldock/ppa -y
-- sudo apt-get update
+# The arter97 toolchain need libisl19 and libmpfr6
+- wget http://archive.ubuntu.com/ubuntu/pool/main/i/isl/libisl19_0.20-2_amd64.deb http://archive.ubuntu.com/ubuntu/pool/main/m/mpfr4/libmpfr6_4.0.1-1_amd64.deb
+- sudo dpkg -i --force-all ./libisl19_0.20-2_amd64.deb ./libmpfr6_4.0.1-1_amd64.deb
 #
 # Travis CI Script by Jonas Cardoso aka JonasCardoso <jonascard60@gmail.com>
+# Submodule 
+- git submodule update --init --recursive
 # Toolchain 
 - export ntoolchainbranch="master"
-- git clone --depth=1 -b "${ntoolchainbranch}" "https://bitbucket.org/jonascardoso/toolchain_aarch64_travis" "../Toolchain"
+- git clone --depth=1 -b "${ntoolchainbranch}" "https://github.com/jonascardoso/Toolchain" "../Toolchain"
 #
 # This will call build.sh with following parameters inside ${nbasebuildsh}:
 #
@@ -95,9 +97,9 @@ before_deploy:
 # Set up git user name and tag this commit
 - git config --local user.name "jonascardoso"
 - git config --local user.email "jonascard60@gmail.com"
-- git tag "${customkernel}-$(date +'%d/%m/%Y')-Pie-HMP" pe-pie --force
+- git tag "${customkernel}-$(date +'%d/%m/%Y')-Ten-HMP" ten-3.18.x --force
 #  Force to use this tag
-- export TRAVIS_TAG="${customkernel}-$(date +'%d/%m/%Y')-Pie-HMP"
+- export TRAVIS_TAG="${customkernel}-$(date +'%d/%m/%Y')-Ten-HMP"
 #  - git tag "$(date +'%d/%m/%Y')-$(git log --format=%h -1)"
 #  - git tag "$(date +'%d/%m/%Y-%Hh%Mm%Ss')-$(git log --format=%h -1)"
 deploy:
@@ -110,5 +112,5 @@ deploy:
     - "zip-creator/${zipfile0}"
   on:
     repo: JonasCardoso/android_kernel_xiaomi_msm8996
-    branch: pe-pie
+    branch: ten-3.18.x
 
