@@ -6,7 +6,7 @@
 # Rashed for the base of zip making
 # And the internet for filling in else where
 
-# You need to download https://bitbucket.org/jonascardoso/toolchain_aarch64
+# You need to download https://github.com/jonascardoso/Toolchain
 # Clone in the same folder as the kernel to choose a toolchain and not specify a location
 
 # Main Process - Start
