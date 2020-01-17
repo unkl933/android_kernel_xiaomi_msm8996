@@ -266,7 +266,6 @@ if [ -f arch/${ARCH}/boot/Image.gz ] || [ -f arch/${ARCH}/boot/Image.lzma ] || [
         sed -i "/supported.versions=/i device.name1=${name}\ndevice.name2=${name1}\ndevice.name3=${name2}\ndevice.name4=${name3}\ndevice.name5=${name4}" ${zipdirout}/anykernel.sh
 
 		cd ${zipdirout}
-		rm -rf patch
 		rm -rf modules
 		rm README.md
 		rm LICENSE
