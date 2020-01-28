@@ -82,7 +82,7 @@
  */
 #define MDP_TIME_PERIOD_CALC_FPS_US	1000000
 
-bool backlight_dimmer = true;
+bool backlight_dimmer = false;
 module_param(backlight_dimmer, bool, 0755);
 
 static struct fb_info *fbi_list[MAX_FBI_LIST];
