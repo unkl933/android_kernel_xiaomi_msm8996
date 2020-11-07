@@ -66,13 +66,7 @@ before_deploy:
 - export TRAVIS_TAG="${customkernel}-$(date +'%d/%m/%Y')-barokah-A11-HMP"
 #  - git tag "$(date +'%d/%m/%Y')-$(git log --format=%h -1)"
 #  - git tag "$(date +'%d/%m/%Y-%Hh%Mm%Ss')-$(git log --format=%h -1)"
-deploy:
-  overwrite: true
-  provider: releases
-  skip_cleanup: true
-  api_key:
-    secure: vGS/cjZ0SKarICr8UfIZaXzhzi7ZZisLkDLvFD0Uf5RK1Q2QuiL7iM1i1T2ni+wmXWmlUpB5aP2oVE6fH32nFI9nShzjpKxPcols2gkHXfJ7mrKs7ahiXZVPYwKgT8hQC1dqKci4X1BhmWzt2DoMXEnNL36D7qYsVRCo9qk7jq9eymJqJg821QsN9gGyPF+9Ow3DeoDRthVOzH30k803hJ6TUuZl+F9og5mJsjphP6+t17ixfr7TW0yFJyknq+36dqlin3nW20eUErJMpker17vRko2E9ssIZUHkDBFohbwBghsoaSkcoUDFVhSIdls+2cayBcNuUqgsKbMQ9xB3nCaBYi9OJ62BbjxpWX8dA12jrB2b2b+sM7azrpUp9FFXHSmQdJ2iN9UTG8ZjZbITHdvzqJ2qLX+3YccVBDP+eNqFkr3Gxp+pUTi/EzA3v/EUpswa4/uh7YAwEA+C0okBCWBYSxYrFMcyfDEmdY/bpCtSPBtCUORcmAd5e4uGJRaOVRH3dJj3YQ9RINzXqeu2k9y9Hs6ryFDPyxCz3hNu46OxIUqNgvwGBIjekl2NMH/ipAkcPwWiHIzoFg77lJDbNq5kPqCslG4zkmGUjPCm2Mj81B+49WbSHcH9dzubukKNyUBbpur0iG4fwul0fMCclFruin0AauriIl/u6Cqt0U0=
-  file:
+
     - "zip-creator/${zipfile0}"
   on:
     repo: unkl/android_kernel_xiaomi_msm8996
