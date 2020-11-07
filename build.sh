@@ -21,23 +21,11 @@ unset name variant defconfig
 clear
 echo "0) ${bldred}Xiaomi Mi5${txtrst}       | Lite/Prime/Pro | Gemini"
 echo
-echo "1) ${bldyel}Xiaomi Mi5S${txtrst}      | Lite/Prime/Pro | Capricorn"
-echo
-echo "2) ${bldcya}Xiaomi Mi5S Plus${txtrst} | Prime/Pro      | Natrium"
-echo
-echo "3) ${bldgrn}Xiaomi Mi Mix${txtrst}    | Prime/Pro      | Lithium"
-echo
-echo "4) ${bldmag}Xiaomi Mi Note 2${txtrst} | Lite/Prime/Pro | Scorpio"
-echo
 echo "*) Any other key to Exit"
 echo
 read -p "Choice: " -n 1 -s x
 case "${x}" in
 	0 ) defconfig="gemini_defconfig"; name="Mi5"; variant="Lite-Prime-Pro"; name1="Mi 5"; name2="MI5"; name3="gemini"; name4="Gemini";;
-	1 ) defconfig="capricorn_defconfig"; name="Mi5S"; variant="Lite-Prime-Pro"; name1="Mi 5s"; name2="MI5S"; name3="capricorn"; name4="Capricorn";;
-	2 ) defconfig="natrium_defconfig"; name="Mi5SPlus"; variant="Prime-Pro"; name1="Mi 5 Plus"; name2="MI5SPlus"; name3="natrium"; name4="Natrium";;
-	3 ) defconfig="lithium_defconfig"; name="MiMix"; variant="Prime-Pro"; name1="Mi Mix"; name2="MIMix"; name3="lithium"; name4="Lithium";;
-	4 ) defconfig="scorpio_defconfig"; name="MiNote2"; variant="Lite-Prime-Pro"; name1="Mi Note 2"; name2="MINote2"; name3="scorpio"; name4="Scorpio";;
 	* ) ;;
 esac
 if [ "${defconfig}" == "" ]
@@ -285,42 +273,6 @@ fi
 clear
 }
 # Zip Process - End
-
-# ADB - Start
-adbcopy() {
-if [ -f zip-creator/${zipfile} ]; then
-	clear
-	echo "-Coping ${customkernel}-"
-	echo
-	echo "You want to copy:"
-	echo
-	echo "a) For Internal Card (sdcard0)"
-	echo "b) For External Card (sdcard1)"
-	echo "c) For Internal Card Emulated (/emulated/0)"
-	echo "d) For Data Media (/data/media)"
-	echo
-	echo "*) Any other key for exit"
-	echo
-	read -p "Choice: " -n 1 -s x
-	case "$x" in
-		a ) echo "Coping to Internal Card..."; _ac="sdcard0" ;;
-		b ) echo "Coping to External Card..."; _ac="sdcard1" ;;
-		c ) echo "Coping to Internal Card Emulated..."; _ac="emulated/0" ;;
-		d ) echo "Coping to Data Media..."; _ac="data/media" ;;
-		* ) ;;
-	esac
-	if ! [ ${_ac} == "" ]
-	then
-		adb shell rm -rf /storage/${_ac}/${zipfile} &> /dev/null
-		adb push zip-creator/${zipfile} /storage/${_ac}/${zipfile} &> /dev/null
-		unset _ac
-	fi
-else
-	ops
-fi
-clear
-}
-# ADB - End
 
 # Menu - Start
 buildsh() {
