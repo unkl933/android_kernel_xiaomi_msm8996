@@ -11,42 +11,6 @@ env:
       ntoolchain="42"
     - ndevicechoice="0"
       ntoolchain="43"
-# Xiaomi Mi5S
-    - ndevicechoice="1"
-      ntoolchain="40"
-    - ndevicechoice="1"
-      ntoolchain="41"
-    - ndevicechoice="1"
-      ntoolchain="42"
-    - ndevicechoice="1"
-      ntoolchain="43"
-# Xiaomi Mi5S Plus
-    - ndevicechoice="2"
-      ntoolchain="40"
-    - ndevicechoice="2"
-      ntoolchain="41"
-    - ndevicechoice="2"
-      ntoolchain="42"
-    - ndevicechoice="2"
-      ntoolchain="43"
-# Xiaomi Mi Mix
-    - ndevicechoice="3"
-      ntoolchain="40"
-    - ndevicechoice="3"
-      ntoolchain="41"
-    - ndevicechoice="3"
-      ntoolchain="42"
-    - ndevicechoice="3"
-      ntoolchain="43"
-# Xiaomi Mi Note 2
-    - ndevicechoice="4"
-      ntoolchain="40"
-    - ndevicechoice="4"
-      ntoolchain="41"
-    - ndevicechoice="4"
-      ntoolchain="42"
-    - ndevicechoice="4"
-      ntoolchain="43"
 before_script:
 # Print build info that binary is compiled with.
   - echo $TRAVIS_COMMIT
@@ -66,8 +30,8 @@ script:
 # Submodule 
 - git submodule update --init --recursive
 # Toolchain 
-- export ntoolchainbranch="master"
-- git clone --depth=1 -b "${ntoolchainbranch}" "https://github.com/jonascardoso/Toolchain" "../Toolchain"
+- export ntoolchainbranch="lineage-18.0"
+- git clone --depth=1 -b "${ntoolchainbranch}" "https://github.com/unkl933/gcc_aarch64-linux-android-4.9" "../Toolchain"
 #
 # This will call build.sh with following parameters inside ${nbasebuildsh}:
 #
@@ -95,11 +59,11 @@ script:
 - export zipfile0="${zipfile}"
 before_deploy:
 # Set up git user name and tag this commit
-- git config --local user.name "jonascardoso"
-- git config --local user.email "jonascard60@gmail.com"
-- git tag "${customkernel}-$(date +'%d/%m/%Y')-Eleven-HMP" hmp-r --force
+- git config --local user.name "dophamine"
+- git config --local user.email "crack1933@gmail.com"
+- git tag "${customkernel}-$(date +'%d/%m/%Y')-barokah-A11-HMP" hmp-r --force
 #  Force to use this tag
-- export TRAVIS_TAG="${customkernel}-$(date +'%d/%m/%Y')-Eleven-HMP"
+- export TRAVIS_TAG="${customkernel}-$(date +'%d/%m/%Y')-barokah-A11-HMP"
 #  - git tag "$(date +'%d/%m/%Y')-$(git log --format=%h -1)"
 #  - git tag "$(date +'%d/%m/%Y-%Hh%Mm%Ss')-$(git log --format=%h -1)"
 deploy:
@@ -111,5 +75,5 @@ deploy:
   file:
     - "zip-creator/${zipfile0}"
   on:
-    repo: JonasCardoso/android_kernel_xiaomi_msm8996
+    repo: unkl/android_kernel_xiaomi_msm8996
     branch: hmp-r
