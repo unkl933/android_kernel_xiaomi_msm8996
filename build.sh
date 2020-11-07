@@ -407,10 +407,10 @@ elif [ -e build.sh ]; then
 	# Main Variables
     manufacturer=Xiaomi
     soc=MSM8996/PRO
-	maintainer=JonasCardoso
-	customkernel=FloppyKernel
+	maintainer=unkl
+	customkernel=Barokah
 	romversion=HMP
-	androidversion=Eleven
+	androidversion=a11
 	export ARCH=arm64
 
 	while true
